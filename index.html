@@ -1,4 +1,4 @@
-
+html
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -21,19 +21,22 @@
             position: relative;
         }
 
-        /* Background Image/GIF */
+        /* Background Image/GIF/Video */
         .background {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url(''); /* Buraya kendi arka plan URL'ini ekle */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            opacity: 0.15;
             z-index: 0;
+            opacity: 0.15;
+        }
+
+        .background img,
+        .background video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         /* Kar Yağışı */
@@ -295,7 +298,6 @@
             margin: 0 auto;
             position: relative;
             transition: all 0.4s ease;
-            background-image: url('https://cdn.discordapp.com/avatars/1040502104348954694/b5cf99b73082f118e1bfa396e5d547cc.png?size=1024');
             background-size: cover;
             background-position: center;
         }
@@ -580,6 +582,250 @@
             letter-spacing: 0.5px;
         }
 
+        /* Admin Panel Styles */
+        .admin-panel {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0a0a;
+            z-index: 10000;
+            overflow-y: auto;
+            padding: 40px 20px;
+        }
+
+        .admin-panel.active {
+            display: block;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            background: rgba(20, 20, 20, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 50px 40px;
+            text-align: center;
+        }
+
+        .login-container h2 {
+            font-size: 28px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 40px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 10px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .login-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 1);
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            font-size: 12px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .panel-container {
+            display: none;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .panel-container.active {
+            display: block;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .panel-header h1 {
+            font-size: 32px;
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .logout-btn {
+            padding: 12px 30px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .settings-grid {
+            display: grid;
+            gap: 25px;
+        }
+
+        .setting-card {
+            background: rgba(20, 20, 20, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 30px;
+        }
+
+        .setting-card h3 {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 10px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 13px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .save-btn {
+            width: 100%;
+            padding: 16px;
+            background: rgba(67, 181, 129, 0.15);
+            border: 1px solid rgba(67, 181, 129, 0.3);
+            border-radius: 10px;
+            color: #43b581;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .save-btn:hover {
+            background: rgba(67, 181, 129, 0.25);
+            border-color: rgba(67, 181, 129, 0.5);
+        }
+
+        .preview-image {
+            width: 100%;
+            max-width: 200px;
+            height: 200px;
+            border-radius: 12px;
+            object-fit: cover;
+            margin-top: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .color-picker-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .color-picker-wrapper input[type="color"] {
+            width: 60px;
+            height: 40px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
         @media (max-width: 768px) {
             .volume-control {
                 top: 20px;
@@ -607,19 +853,27 @@
             .enter-logo {
                 font-size: 36px;
             }
+
+            .login-container {
+                padding: 40px 30px;
+            }
+
+            .setting-card {
+                padding: 25px 20px;
+            }
         }
     </style>
 </head>
 <body>
     <!-- Background -->
-    <div class="background"></div>
+    <div class="background" id="backgroundContainer"></div>
 
     <!-- Kar Container -->
     <div class="snow" id="snow"></div>
 
     <!-- Giriş Overlay -->
     <div class="enter-overlay" id="enterOverlay">
-        <div class="enter-logo">dengehh</div>
+        <div class="enter-logo" id="enterLogoText">dengehh</div>
         <button class="enter-button" onclick="enter()">
             <span>enter</span>
         </button>
@@ -641,31 +895,31 @@
             <div class="profile-card">
                 <!-- Avatar -->
                 <div class="avatar-container">
-                    <div class="avatar"></div>
+                    <div class="avatar" id="profileAvatar"></div>
                 </div>
 
                 <!-- Username & Title -->
-                <h1 class="username">dengehh</h1>
-                <p class="title">Lord</p>
+                <h1 class="username" id="profileUsername">dengehh</h1>
+                <p class="title" id="profileTitle">Lord</p>
 
                 <!-- Status -->
                 <div class="status-container">
-                    <div class="status-indicator"></div>
-                    <span class="status-text">sleeping zzz</span>
+                    <div class="status-indicator" id="statusIndicator"></div>
+                    <span class="status-text" id="statusText">sleeping zzz</span>
                 </div>
 
                 <!-- Sosyal Linkler -->
                 <div class="social-links">
-                    <div class="social-icon" onclick="openLink('spotify')">
+                    <div class="social-icon" onclick="openLink('spotify')" id="spotifyIcon">
                         <img src="https://cdn.discordapp.com/attachments/1060918037492027402/1434824860609019987/images__1_-removebg-preview.png?ex=6909bc48&is=69086ac8&hm=0a1392521ba092acfb92209b3835f64ff3b7230fc9f2a0f76e6433b67cdea29e&" alt="Spotify">
                     </div>
-                    <div class="social-icon" onclick="openLink('github')">
+                    <div class="social-icon" onclick="openLink('github')" id="githubIcon">
                         <img src="https://cdn.discordapp.com/attachments/1060918037492027402/1434824860290388008/images__3_-removebg-preview.png?ex=6909bc48&is=69086ac8&hm=b125fafb254383815e4553294be1e6a290d9b226da5836e949bda4095a51c46a&" alt="GitHub">
                     </div>
-                    <div class="social-icon" onclick="openLink('youtube')">
+                    <div class="social-icon" onclick="openLink('youtube')" id="youtubeIcon">
                         <img src="https://cdn.discordapp.com/attachments/1060918037492027402/1434824861229912135/images__2_-removebg-preview.png?ex=6909bc48&is=69086ac8&hm=ee42f1022c800172489b49df0c59531bbd368f8ae27618e9fb3169e110a85a2d&" alt="YouTube">
                     </div>
-                    <div class="social-icon" onclick="openLink('discord')">
+                    <div class="social-icon" onclick="openLink('discord')" id="discordIcon">
                         <img src="https://cdn.discordapp.com/attachments/1060918037492027402/1434824860953219072/images-removebg-preview.png?ex=6909bc48&is=69086ac8&hm=ac1bbc88c8e4d9350dbc4d0ee9ee03cbaa8bf8f272b84cd450c2aa1927cc0aec&" alt="Discord">
                     </div>
                 </div>
@@ -680,10 +934,10 @@
                     </div>
                     <div class="card-content">
                         <div class="card-image">
-                            <img src="" alt="Album">
+                            <img src="" alt="Album" id="musicCoverImage">
                         </div>
                         <div class="card-info">
-                            <div class="card-primary">My Spotify Playlist</div>
+                            <div class="card-primary" id="musicTitle">My Spotify Playlist</div>
                             <div class="card-secondary">click to listen</div>
                         </div>
                     </div>
@@ -699,13 +953,165 @@
                     </div>
                     <div class="card-content">
                         <div class="card-image">
-                            <img src="https://cdn.discordapp.com/avatars/1040502104348954694/b5cf99b73082f118e1bfa396e5d547cc.png?size=1024" alt="Avatar">
+                            <img id="discordAvatar" src="https://cdn.discordapp.com/avatars/1040502104348954694/b5cf99b73082f118e1bfa396e5d547cc.png?size=1024" alt="Avatar">
                         </div>
                         <div class="card-info">
-                            <div class="card-primary">dengehh ⭐ STAR</div>
-                            <div class="card-secondary">last seen 1h ago</div>
+                            <div class="card-primary" id="discordUsername">dengehh ⭐ STAR</div>
+                            <div class="card-secondary" id="discordStatus">last seen 1h ago</div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="adminPanel">
+        <!-- Login Screen -->
+        <div class="login-container" id="loginContainer">
+            <h2>Admin Panel</h2>
+            <form onsubmit="login(event)">
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="passwordInput" placeholder="Enter password" required>
+                </div>
+                <button type="submit" class="login-btn">Login</button>
+                <div class="error-message" id="errorMessage">Incorrect password!</div>
+            </form>
+        </div>
+
+        <!-- Panel Content -->
+        <div class="panel-container" id="panelContainer">
+            <div class="panel-header">
+                <h1>Control Panel</h1>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+
+            <div class="settings-grid">
+                <!-- Profile Settings -->
+                <div class="setting-card">
+                    <h3>Profile Settings</h3>
+                    <div class="form-group">
+                        <label>Profile Picture URL</label>
+                        <input type="url" id="avatarUrl" placeholder="https://example.com/avatar.png">
+                        <img id="avatarPreview" class="preview-image" style="display: none;">
+                    </div>
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" id="usernameInput" placeholder="dengehh">
+                    </div>
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" id="titleInput" placeholder="Lord">
+                    </div>
+                    <div class="form-group">
+                        <label>Status Text</label>
+                        <input type="text" id="statusTextInput" placeholder="sleeping zzz">
+                    </div>
+                    <div class="form-group">
+                        <label>Status Color</label>
+                        <div class="color-picker-wrapper">
+                            <input type="color" id="statusColor" value="#43b581">
+                            <span style="color: rgba(255,255,255,0.5); font-size: 12px;">Online: #43b581, Idle: #faa61a, DND: #f04747, Offline: #747f8d</span>
+                        </div>
+                    </div>
+                    <button class="save-btn" onclick="saveProfileSettings()">Save Profile</button>
+                </div>
+
+                <!-- Background Settings -->
+                <div class="setting-card">
+                    <h3>Background Settings</h3>
+                    <div class="form-group">
+                        <label>Background URL (Image, GIF, or MP4)</label>
+                        <input type="url" id="backgroundUrl" placeholder="https://example.com/background.gif">
+                        <img id="backgroundPreview" class="preview-image" style="display: none;">
+                    </div>
+                    <div class="form-group">
+                        <label>Background Opacity (0-100)</label>
+                        <input type="number" id="backgroundOpacity" min="0" max="100" value="15" placeholder="15">
+                    </div>
+                    <div class="form-group">
+                        <label>Enable Snow Effect</label>
+                        <select id="snowEffect" style="width: 100%; padding: 14px 18px; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; color: #ffffff; font-size: 13px;">
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                    <button class="save-btn" onclick="saveBackgroundSettings()">Save Background</button>
+                </div>
+
+                <!-- Music Settings -->
+                <div class="setting-card">
+                    <h3>Music Settings</h3>
+                    <div class="form-group">
+                        <label>Background Music URL (MP3)</label>
+                        <input type="url" id="musicUrl" placeholder="https://example.com/music.mp3">
+                    </div>
+                    <div class="form-group">
+                        <label>Music Volume (0-100)</label>
+                        <input type="number" id="musicVolume" min="0" max="100" value="25" placeholder="25">
+                    </div>
+                    <div class="form-group">
+                        <label>Music Card Title</label>
+                        <input type="text" id="musicCardTitle" placeholder="My Spotify Playlist">
+                    </div>
+                    <div class="form-group">
+                        <label>Music Card Cover Image URL</label>
+                        <input type="url" id="musicCoverUrl" placeholder="https://example.com/cover.jpg">
+                        <img id="musicCoverPreview" class="preview-image" style="display: none;">
+                    </div>
+                    <button class="save-btn" onclick="saveMusicSettings()">Save Music</button>
+                </div>
+
+                <!-- Social Links -->
+                <div class="setting-card">
+                    <h3>Social Links</h3>
+                    <div class="form-group">
+                        <label>Spotify Link</label>
+                        <input type="url" id="spotifyLink" placeholder="https://spotify.link/...">
+                    </div>
+                    <div class="form-group">
+                        <label>Discord Link</label>
+                        <input type="url" id="discordLink" placeholder="https://discord.gg/...">
+                    </div>
+                    <div class="form-group">
+                        <label>YouTube Link</label>
+                        <input type="url" id="youtubeLink" placeholder="https://youtube.com/...">
+                    </div>
+                    <div class="form-group">
+                        <label>GitHub Link</label>
+                        <input type="url" id="githubLink" placeholder="https://github.com/...">
+                    </div>
+                    <button class="save-btn" onclick="saveSocialLinks()">Save Social Links</button>
+                </div>
+
+                <!-- Discord Card Settings -->
+                <div class="setting-card">
+                    <h3>Discord Card Settings</h3>
+                    <div class="form-group">
+                        <label>Discord Avatar URL</label>
+                        <input type="url" id="discordAvatarUrl" placeholder="https://cdn.discordapp.com/avatars/...">
+                        <img id="discordAvatarPreview" class="preview-image" style="display: none;">
+                    </div>
+                    <div class="form-group">
+                        <label>Discord Username</label>
+                        <input type="text" id="discordUsernameInput" placeholder="dengehh ⭐ STAR">
+                    </div>
+                    <div class="form-group">
+                        <label>Discord Status</label>
+                        <input type="text" id="discordStatusInput" placeholder="last seen 1h ago">
+                    </div>
+                    <button class="save-btn" onclick="saveDiscordSettings()">Save Discord Card</button>
+                </div>
+
+                <!-- Enter Screen Settings -->
+                <div class="setting-card">
+                    <h3>Enter Screen Settings</h3>
+                    <div class="form-group">
+                        <label>Enter Screen Logo Text</label>
+                        <input type="text" id="enterLogoInput" placeholder="dengehh">
+                    </div>
+                    <button class="save-btn" onclick="saveEnterSettings()">Save Enter Screen</button>
                 </div>
             </div>
         </div>
@@ -717,6 +1123,300 @@
     </audio>
 
     <script>
+        // Configuration
+        const ADMIN_PASSWORD = 'EMRE123';
+        const STORAGE_KEY = 'profile_settings';
+
+        // Default settings
+        let settings = {
+            profile: {
+                avatar: 'https://cdn.discordapp.com/avatars/1040502104348954694/b5cf99b73082f118e1bfa396e5d547cc.png?size=1024',
+                username: 'dengehh',
+                title: 'Lord',
+                statusText: 'sleeping zzz',
+                statusColor: '#43b581'
+            },
+            background: {
+                url: '',
+                opacity: 15,
+                snowEffect: true
+            },
+            music: {
+                url: '',
+                volume: 25,
+                cardTitle: 'My Spotify Playlist',
+                coverUrl: ''
+            },
+            social: {
+                spotify: 'https://spotify.link/eT5J65tsZXb',
+                discord: 'https://discord.gg/y2ADcagZnW',
+                youtube: '',
+                github: ''
+            },
+            discordCard: {
+                avatar: 'https://cdn.discordapp.com/avatars/1040502104348954694/b5cf99b73082f118e1bfa396e5d547cc.png?size=1024',
+                username: 'dengehh ⭐ STAR',
+                status: 'last seen 1h ago'
+            },
+            enterScreen: {
+                logoText: 'dengehh'
+            }
+        };
+
+        // Load settings from storage
+        function loadSettings() {
+            const stored = localStorage.getItem(STORAGE_KEY);
+            if (stored) {
+                settings = JSON.parse(stored);
+            }
+            applySettings();
+        }
+
+        // Save settings to storage
+        function saveSettings() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+        }
+
+        // Apply all settings to page
+        function applySettings() {
+            // Profile
+            document.getElementById('profileAvatar').style.backgroundImage = `url('${settings.profile.avatar}')`;
+            document.getElementById('profileUsername').textContent = settings.profile.username;
+            document.getElementById('profileTitle').textContent = settings.profile.title;
+            document.getElementById('statusText').textContent = settings.profile.statusText;
+            document.getElementById('statusIndicator').style.background = settings.profile.statusColor;
+
+            // Background
+            updateBackground();
+            document.querySelector('.background').style.opacity = settings.background.opacity / 100;
+            
+            if (!settings.background.snowEffect) {
+                document.getElementById('snow').style.display = 'none';
+            }
+
+            // Music
+            if (settings.music.url) {
+                document.getElementById('bgAudio').querySelector('source').src = settings.music.url;
+                document.getElementById('bgAudio').load();
+            }
+            document.getElementById('bgAudio').volume = settings.music.volume / 100;
+            document.getElementById('volumeSlider').value = settings.music.volume;
+            document.getElementById('musicTitle').textContent = settings.music.cardTitle;
+            
+            if (settings.music.coverUrl) {
+                document.getElementById('musicCoverImage').src = settings.music.coverUrl;
+            }
+
+            // Discord Card
+            document.getElementById('discordAvatar').src = settings.discordCard.avatar;
+            document.getElementById('discordUsername').textContent = settings.discordCard.username;
+            document.getElementById('discordStatus').textContent = settings.discordCard.status;
+
+            // Enter Screen
+            document.getElementById('enterLogoText').textContent = settings.enterScreen.logoText;
+        }
+
+        // Update background (image, gif, or video)
+        function updateBackground() {
+            const container = document.getElementById('backgroundContainer');
+            container.innerHTML = '';
+            
+            if (settings.background.url) {
+                const ext = settings.background.url.split('.').pop().toLowerCase();
+                
+                if (ext === 'mp4' || ext === 'webm') {
+                    const video = document.createElement('video');
+                    video.src = settings.background.url;
+                    video.autoplay = true;
+                    video.loop = true;
+                    video.muted = true;
+                    video.playsInline = true;
+                    container.appendChild(video);
+                } else {
+                    const img = document.createElement('img');
+                    img.src = settings.background.url;
+                    container.appendChild(img);
+                }
+            }
+        }
+
+        // Check if on /panel route
+        function checkRoute() {
+            const path = window.location.pathname;
+            if (path === '/panel' || path === '/panel.html') {
+                document.getElementById('adminPanel').classList.add('active');
+                document.getElementById('mainContainer').style.display = 'none';
+                document.getElementById('enterOverlay').style.display = 'none';
+                document.getElementById('volumeControl').style.display = 'none';
+            }
+        }
+
+        // Login function
+        function login(event) {
+            event.preventDefault();
+            const password = document.getElementById('passwordInput').value;
+            
+            if (password === ADMIN_PASSWORD) {
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('panelContainer').classList.add('active');
+                document.getElementById('errorMessage').style.display = 'none';
+                loadPanelValues();
+            } else {
+                document.getElementById('errorMessage').style.display = 'block';
+            }
+        }
+
+        // Logout function
+        function logout() {
+            document.getElementById('loginContainer').style.display = 'block';
+            document.getElementById('panelContainer').classList.remove('active');
+            document.getElementById('passwordInput').value = '';
+        }
+
+        // Load current values into panel inputs
+        function loadPanelValues() {
+            // Profile
+            document.getElementById('avatarUrl').value = settings.profile.avatar;
+            document.getElementById('usernameInput').value = settings.profile.username;
+            document.getElementById('titleInput').value = settings.profile.title;
+            document.getElementById('statusTextInput').value = settings.profile.statusText;
+            document.getElementById('statusColor').value = settings.profile.statusColor;
+
+            // Background
+            document.getElementById('backgroundUrl').value = settings.background.url;
+            document.getElementById('backgroundOpacity').value = settings.background.opacity;
+            document.getElementById('snowEffect').value = settings.background.snowEffect.toString();
+
+            // Music
+            document.getElementById('musicUrl').value = settings.music.url;
+            document.getElementById('musicVolume').value = settings.music.volume;
+            document.getElementById('musicCardTitle').value = settings.music.cardTitle;
+            document.getElementById('musicCoverUrl').value = settings.music.coverUrl;
+
+            // Social
+            document.getElementById('spotifyLink').value = settings.social.spotify;
+            document.getElementById('discordLink').value = settings.social.discord;
+            document.getElementById('youtubeLink').value = settings.social.youtube;
+            document.getElementById('githubLink').value = settings.social.github;
+
+            // Discord Card
+            document.getElementById('discordAvatarUrl').value = settings.discordCard.avatar;
+            document.getElementById('discordUsernameInput').value = settings.discordCard.username;
+            document.getElementById('discordStatusInput').value = settings.discordCard.status;
+
+            // Enter Screen
+            document.getElementById('enterLogoInput').value = settings.enterScreen.logoText;
+
+            // Setup preview listeners
+            setupPreviewListeners();
+        }
+
+        // Setup image preview listeners
+        function setupPreviewListeners() {
+            document.getElementById('avatarUrl').addEventListener('input', function() {
+                const preview = document.getElementById('avatarPreview');
+                if (this.value) {
+                    preview.src = this.value;
+                    preview.style.display = 'block';
+                } else {
+                    preview.style.display = 'none';
+                }
+            });
+
+            document.getElementById('backgroundUrl').addEventListener('input', function() {
+                const preview = document.getElementById('backgroundPreview');
+                const ext = this.value.split('.').pop().toLowerCase();
+                if (this.value && (ext === 'jpg' || ext === 'jpeg' || ext === 'png' || ext === 'gif')) {
+                    preview.src = this.value;
+                    preview.style.display = 'block';
+                } else {
+                    preview.style.display = 'none';
+                }
+            });
+
+            document.getElementById('musicCoverUrl').addEventListener('input', function() {
+                const preview = document.getElementById('musicCoverPreview');
+                if (this.value) {
+                    preview.src = this.value;
+                    preview.style.display = 'block';
+                } else {
+                    preview.style.display = 'none';
+                }
+            });
+
+            document.getElementById('discordAvatarUrl').addEventListener('input', function() {
+                const preview = document.getElementById('discordAvatarPreview');
+                if (this.value) {
+                    preview.src = this.value;
+                    preview.style.display = 'block';
+                } else {
+                    preview.style.display = 'none';
+                }
+            });
+        }
+
+        // Save functions
+        function saveProfileSettings() {
+            settings.profile.avatar = document.getElementById('avatarUrl').value || settings.profile.avatar;
+            settings.profile.username = document.getElementById('usernameInput').value || settings.profile.username;
+            settings.profile.title = document.getElementById('titleInput').value || settings.profile.title;
+            settings.profile.statusText = document.getElementById('statusTextInput').value || settings.profile.statusText;
+            settings.profile.statusColor = document.getElementById('statusColor').value;
+            
+            saveSettings();
+            applySettings();
+            alert('Profile settings saved successfully!');
+        }
+
+        function saveBackgroundSettings() {
+            settings.background.url = document.getElementById('backgroundUrl').value;
+            settings.background.opacity = parseInt(document.getElementById('backgroundOpacity').value) || 15;
+            settings.background.snowEffect = document.getElementById('snowEffect').value === 'true';
+            
+            saveSettings();
+            applySettings();
+            alert('Background settings saved successfully!');
+        }
+
+        function saveMusicSettings() {
+            settings.music.url = document.getElementById('musicUrl').value;
+            settings.music.volume = parseInt(document.getElementById('musicVolume').value) || 25;
+            settings.music.cardTitle = document.getElementById('musicCardTitle').value || settings.music.cardTitle;
+            settings.music.coverUrl = document.getElementById('musicCoverUrl').value;
+            
+            saveSettings();
+            applySettings();
+            alert('Music settings saved successfully!');
+        }
+
+        function saveSocialLinks() {
+            settings.social.spotify = document.getElementById('spotifyLink').value || settings.social.spotify;
+            settings.social.discord = document.getElementById('discordLink').value || settings.social.discord;
+            settings.social.youtube = document.getElementById('youtubeLink').value;
+            settings.social.github = document.getElementById('githubLink').value;
+            
+            saveSettings();
+            alert('Social links saved successfully!');
+        }
+
+        function saveDiscordSettings() {
+            settings.discordCard.avatar = document.getElementById('discordAvatarUrl').value || settings.discordCard.avatar;
+            settings.discordCard.username = document.getElementById('discordUsernameInput').value || settings.discordCard.username;
+            settings.discordCard.status = document.getElementById('discordStatusInput').value || settings.discordCard.status;
+            
+            saveSettings();
+            applySettings();
+            alert('Discord card settings saved successfully!');
+        }
+
+        function saveEnterSettings() {
+            settings.enterScreen.logoText = document.getElementById('enterLogoInput').value || settings.enterScreen.logoText;
+            
+            saveSettings();
+            applySettings();
+            alert('Enter screen settings saved successfully!');
+        }
+
         // Kar Yağışı
         function createSnow() {
             const snow = document.getElementById('snow');
@@ -743,7 +1443,7 @@
             
             setTimeout(() => {
                 main.classList.add('visible');
-                audio.volume = 0.25;
+                audio.volume = settings.music.volume / 100;
                 audio.play().catch(e => console.log('Audio autoplay prevented'));
             }, 500);
         }
@@ -753,7 +1453,7 @@
         let isExpanded = false;
 
         volumeControl.addEventListener('click', function(e) {
-            if (!isExpanded && e.target === volumeControl || e.target.closest('.volume-icon')) {
+            if (!isExpanded && (e.target === volumeControl || e.target.closest('.volume-icon'))) {
                 isExpanded = true;
                 volumeControl.classList.add('expanded');
             }
@@ -801,11 +1501,12 @@
         // Sosyal Link Fonksiyonu
         function openLink(platform) {
             const links = {
-                spotify: 'https://open.spotify.com', // Buraya kendi Spotify playlist linkini ekle
-                github: 'https://github.com',
-                youtube: 'https://youtube.com',
-                discord: 'https://discord.com'
+                spotify: settings.social.spotify,
+                github: settings.social.github,
+                youtube: settings.social.youtube,
+                discord: settings.social.discord
             };
+            
             if (links[platform]) {
                 window.open(links[platform], '_blank');
             }
@@ -813,6 +1514,8 @@
 
         // Sayfa Yüklendiğinde
         window.addEventListener('load', () => {
+            loadSettings();
+            checkRoute();
             createSnow();
         });
     </script>
