@@ -1,4 +1,3 @@
-html
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -21,7 +20,6 @@ html
             position: relative;
         }
 
-        /* Background Image/GIF/Video */
         .background {
             position: fixed;
             top: 0;
@@ -39,7 +37,6 @@ html
             object-fit: cover;
         }
 
-        /* Kar Yağışı */
         .snow {
             position: fixed;
             top: 0;
@@ -70,7 +67,6 @@ html
             }
         }
 
-        /* Giriş Ekranı */
         .enter-overlay {
             position: fixed;
             top: 0;
@@ -152,7 +148,6 @@ html
             z-index: 1;
         }
 
-        /* Volume Control - Üst Sağda */
         .volume-control {
             position: fixed;
             top: 30px;
@@ -245,7 +240,6 @@ html
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
 
-        /* Ana İçerik */
         .main-container {
             opacity: 0;
             transition: opacity 1.5s ease;
@@ -266,14 +260,12 @@ html
             padding: 60px 20px;
         }
 
-        /* Profil Card */
         .profile-card {
             max-width: 500px;
             width: 100%;
             text-align: center;
         }
 
-        /* Avatar */
         .avatar-container {
             margin-bottom: 30px;
             position: relative;
@@ -337,7 +329,6 @@ html
             animation: rotateBorder 15s linear infinite reverse;
         }
 
-        /* Username */
         .username {
             font-size: 32px;
             font-weight: 300;
@@ -345,6 +336,42 @@ html
             margin-bottom: 10px;
             color: rgba(255, 255, 255, 0.95);
             animation: fadeInUp 0.8s ease-out 0.2s both;
+            transition: all 0.3s ease;
+        }
+
+        .username.glowing {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
+                         0 0 20px rgba(255, 255, 255, 0.3),
+                         0 0 30px rgba(255, 255, 255, 0.2);
+            animation: fadeInUp 0.8s ease-out 0.2s both, glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% {
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.5),
+                             0 0 20px rgba(255, 255, 255, 0.3),
+                             0 0 30px rgba(255, 255, 255, 0.2);
+            }
+            50% {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+                             0 0 30px rgba(255, 255, 255, 0.6),
+                             0 0 40px rgba(255, 255, 255, 0.4);
+            }
+        }
+
+        .username.gradient {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f7b731);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease-out 0.2s both, gradientShift 3s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .title {
@@ -356,7 +383,6 @@ html
             animation: fadeInUp 0.8s ease-out 0.3s both;
         }
 
-        /* Status */
         .status-container {
             display: flex;
             align-items: center;
@@ -416,7 +442,6 @@ html
             letter-spacing: 1px;
         }
 
-        /* Sosyal Linkler */
         .social-links {
             display: flex;
             justify-content: center;
@@ -477,7 +502,6 @@ html
             opacity: 1;
         }
 
-        /* Info Cards */
         .info-card {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -582,7 +606,6 @@ html
             letter-spacing: 0.5px;
         }
 
-        /* Admin Panel Styles */
         .admin-panel {
             display: none;
             position: fixed;
@@ -758,7 +781,8 @@ html
         }
 
         .form-group input,
-        .form-group textarea {
+        .form-group textarea,
+        .form-group select {
             width: 100%;
             padding: 14px 18px;
             background: rgba(255, 255, 255, 0.02);
@@ -776,7 +800,8 @@ html
         }
 
         .form-group input:focus,
-        .form-group textarea:focus {
+        .form-group textarea:focus,
+        .form-group select:focus {
             outline: none;
             border-color: rgba(255, 255, 255, 0.2);
             background: rgba(255, 255, 255, 0.04);
@@ -826,6 +851,153 @@ html
             cursor: pointer;
         }
 
+        .upload-area {
+            margin-top: 15px;
+            padding: 30px;
+            border: 2px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .upload-area:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .upload-area.dragover {
+            border-color: #43b581;
+            background: rgba(67, 181, 129, 0.1);
+        }
+
+        .upload-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+            opacity: 0.5;
+        }
+
+        .upload-text {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 1px;
+        }
+
+        .upload-text-small {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.3);
+            margin-top: 5px;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .uploaded-preview {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(67, 181, 129, 0.1);
+            border: 1px solid rgba(67, 181, 129, 0.3);
+            border-radius: 10px;
+            display: none;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .uploaded-preview.show {
+            display: flex;
+        }
+
+        .uploaded-preview img,
+        .uploaded-preview video {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .uploaded-info {
+            flex: 1;
+        }
+
+        .uploaded-name {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 5px;
+        }
+
+        .uploaded-size {
+            font-size: 10px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .remove-upload {
+            padding: 8px 16px;
+            background: rgba(240, 71, 71, 0.15);
+            border: 1px solid rgba(240, 71, 71, 0.3);
+            border-radius: 6px;
+            color: #f04747;
+            font-size: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .remove-upload:hover {
+            background: rgba(240, 71, 71, 0.25);
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: 0.4s;
+            border-radius: 34px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            background-color: #43b581;
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+
+        .toggle-label {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
         @media (max-width: 768px) {
             .volume-control {
                 top: 20px;
@@ -865,13 +1037,9 @@ html
     </style>
 </head>
 <body>
-    <!-- Background -->
     <div class="background" id="backgroundContainer"></div>
-
-    <!-- Kar Container -->
     <div class="snow" id="snow"></div>
 
-    <!-- Giriş Overlay -->
     <div class="enter-overlay" id="enterOverlay">
         <div class="enter-logo" id="enterLogoText">dengehh</div>
         <button class="enter-button" onclick="enter()">
@@ -879,7 +1047,6 @@ html
         </button>
     </div>
 
-    <!-- Volume Control -->
     <div class="volume-control" id="volumeControl">
         <div class="volume-icon" id="volumeIcon">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -889,26 +1056,21 @@ html
         <input type="range" class="volume-slider" min="0" max="100" value="25" id="volumeSlider">
     </div>
 
-    <!-- Ana İçerik -->
     <div class="main-container" id="mainContainer">
         <div class="content">
             <div class="profile-card">
-                <!-- Avatar -->
                 <div class="avatar-container">
                     <div class="avatar" id="profileAvatar"></div>
                 </div>
 
-                <!-- Username & Title -->
                 <h1 class="username" id="profileUsername">dengehh</h1>
                 <p class="title" id="profileTitle">Lord</p>
 
-                <!-- Status -->
                 <div class="status-container">
                     <div class="status-indicator" id="statusIndicator"></div>
                     <span class="status-text" id="statusText">sleeping zzz</span>
                 </div>
 
-                <!-- Sosyal Linkler -->
                 <div class="social-links">
                     <div class="social-icon" onclick="openLink('spotify')" id="spotifyIcon">
                         <img src="https://cdn.discordapp.com/attachments/1060918037492027402/1434824860609019987/images__1_-removebg-preview.png?ex=6909bc48&is=69086ac8&hm=0a1392521ba092acfb92209b3835f64ff3b7230fc9f2a0f76e6433b67cdea29e&" alt="Spotify">
@@ -924,7 +1086,6 @@ html
                     </div>
                 </div>
 
-                <!-- Spotify Card -->
                 <div class="info-card" onclick="openLink('spotify')">
                     <div class="card-header">
                         <div class="card-icon">
@@ -943,7 +1104,6 @@ html
                     </div>
                 </div>
 
-                <!-- Discord Card -->
                 <div class="info-card">
                     <div class="card-header">
                         <div class="card-icon">
@@ -965,9 +1125,7 @@ html
         </div>
     </div>
 
-    <!-- Admin Panel -->
     <div class="admin-panel" id="adminPanel">
-        <!-- Login Screen -->
         <div class="login-container" id="loginContainer">
             <h2>Admin Panel</h2>
             <form onsubmit="login(event)">
@@ -980,7 +1138,6 @@ html
             </form>
         </div>
 
-        <!-- Panel Content -->
         <div class="panel-container" id="panelContainer">
             <div class="panel-header">
                 <h1>Control Panel</h1>
@@ -988,82 +1145,185 @@ html
             </div>
 
             <div class="settings-grid">
-                <!-- Profile Settings -->
                 <div class="setting-card">
                     <h3>Profile Settings</h3>
+                    
                     <div class="form-group">
-                        <label>Profile Picture URL</label>
-                        <input type="url" id="avatarUrl" placeholder="https://example.com/avatar.png">
-                        <img id="avatarPreview" class="preview-image" style="display: none;">
+                        <label>Profile Picture</label>
+                        <div class="upload-area" onclick="document.getElementById('avatarFileInput').click()" id="avatarUploadArea">
+                            <div class="upload-icon">📸</div>
+                            <div class="upload-text">Click or Drag & Drop</div>
+                            <div class="upload-text-small">PNG, JPG, GIF (Max 5MB)</div>
+                        </div>
+                        <input type="file" id="avatarFileInput" class="file-input" accept="image/*" onchange="handleFileUpload(this, 'avatar')">
+                        <div class="uploaded-preview" id="avatarPreview">
+                            <img id="avatarPreviewImg" src="" alt="Preview">
+                            <div class="uploaded-info">
+                                <div class="uploaded-name" id="avatarFileName"></div>
+                                <div class="uploaded-size" id="avatarFileSize"></div>
+                            </div>
+                            <button class="remove-upload" onclick="removeUpload('avatar')">Remove</button>
+                        </div>
                     </div>
+
+                    <div class="form-group">
+                        <label>Or Use URL</label>
+                        <input type="url" id="avatarUrl" placeholder="https://example.com/avatar.png">
+                    </div>
+
                     <div class="form-group">
                         <label>Username</label>
                         <input type="text" id="usernameInput" placeholder="dengehh">
                     </div>
+
+                    <div class="form-group">
+                        <label>Username Effects</label>
+                        <div style="display: grid; gap: 15px;">
+                            <label class="toggle-label">
+                                <span style="color: rgba(255,255,255,0.6); font-size: 12px;">Glowing Effect</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="nameGlowing">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </label>
+                            <label class="toggle-label">
+                                <span style="color: rgba(255,255,255,0.6); font-size: 12px;">Gradient Effect</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="nameGradient">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label>Title</label>
                         <input type="text" id="titleInput" placeholder="Lord">
                     </div>
+
                     <div class="form-group">
                         <label>Status Text</label>
                         <input type="text" id="statusTextInput" placeholder="sleeping zzz">
                     </div>
+
                     <div class="form-group">
                         <label>Status Color</label>
                         <div class="color-picker-wrapper">
                             <input type="color" id="statusColor" value="#43b581">
-                            <span style="color: rgba(255,255,255,0.5); font-size: 12px;">Online: #43b581, Idle: #faa61a, DND: #f04747, Offline: #747f8d</span>
+                            <span style="color: rgba(255,255,255,0.5); font-size: 12px;">Online: #43b581, Idle: #faa61a, DND: #f04747</span>
                         </div>
                     </div>
+
                     <button class="save-btn" onclick="saveProfileSettings()">Save Profile</button>
                 </div>
 
-                <!-- Background Settings -->
                 <div class="setting-card">
                     <h3>Background Settings</h3>
+                    
                     <div class="form-group">
-                        <label>Background URL (Image, GIF, or MP4)</label>
-                        <input type="url" id="backgroundUrl" placeholder="https://example.com/background.gif">
-                        <img id="backgroundPreview" class="preview-image" style="display: none;">
+                        <label>Background Media</label>
+                        <div class="upload-area" onclick="document.getElementById('backgroundFileInput').click()" id="backgroundUploadArea">
+                            <div class="upload-icon">🎬</div>
+                            <div class="upload-text">Click or Drag & Drop</div>
+                            <div class="upload-text-small">PNG, JPG, GIF, MP4, WEBM (Max 20MB)</div>
+                        </div>
+                        <input type="file" id="backgroundFileInput" class="file-input" accept="image/*,video/*" onchange="handleFileUpload(this, 'background')">
+                        <div class="uploaded-preview" id="backgroundPreview">
+                            <div id="backgroundPreviewMedia"></div>
+                            <div class="uploaded-info">
+                                <div class="uploaded-name" id="backgroundFileName"></div>
+                                <div class="uploaded-size" id="backgroundFileSize"></div>
+                            </div>
+                            <button class="remove-upload" onclick="removeUpload('background')">Remove</button>
+                        </div>
                     </div>
+
+                    <div class="form-group">
+                        <label>Or Use URL</label>
+                        <input type="url" id="backgroundUrl" placeholder="https://example.com/background.gif">
+                    </div>
+
                     <div class="form-group">
                         <label>Background Opacity (0-100)</label>
                         <input type="number" id="backgroundOpacity" min="0" max="100" value="15" placeholder="15">
                     </div>
+
                     <div class="form-group">
                         <label>Enable Snow Effect</label>
-                        <select id="snowEffect" style="width: 100%; padding: 14px 18px; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 10px; color: #ffffff; font-size: 13px;">
-                            <option value="true">Yes</option>
-                            <option value="false">No</option>
-                        </select>
+                        <label class="toggle-label">
+                            <span style="color: rgba(255,255,255,0.6); font-size: 12px;">Snow Animation</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="snowEffect" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </label>
                     </div>
+
                     <button class="save-btn" onclick="saveBackgroundSettings()">Save Background</button>
                 </div>
 
-                <!-- Music Settings -->
                 <div class="setting-card">
                     <h3>Music Settings</h3>
+                    
                     <div class="form-group">
-                        <label>Background Music URL (MP3)</label>
+                        <label>Background Music</label>
+                        <div class="upload-area" onclick="document.getElementById('musicFileInput').click()" id="musicUploadArea">
+                            <div class="upload-icon">🎵</div>
+                            <div class="upload-text">Click or Drag & Drop</div>
+                            <div class="upload-text-small">MP3, WAV, OGG (Max 10MB)</div>
+                        </div>
+                        <input type="file" id="musicFileInput" class="file-input" accept="audio/*" onchange="handleFileUpload(this, 'music')">
+                        <div class="uploaded-preview" id="musicPreview">
+                            <div style="width: 80px; height: 80px; background: rgba(67,181,129,0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 30px;">🎵</div>
+                            <div class="uploaded-info">
+                                <div class="uploaded-name" id="musicFileName"></div>
+                                <div class="uploaded-size" id="musicFileSize"></div>
+                            </div>
+                            <button class="remove-upload" onclick="removeUpload('music')">Remove</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Or Use URL</label>
                         <input type="url" id="musicUrl" placeholder="https://example.com/music.mp3">
                     </div>
+
                     <div class="form-group">
                         <label>Music Volume (0-100)</label>
                         <input type="number" id="musicVolume" min="0" max="100" value="25" placeholder="25">
                     </div>
+
                     <div class="form-group">
                         <label>Music Card Title</label>
                         <input type="text" id="musicCardTitle" placeholder="My Spotify Playlist">
                     </div>
+
                     <div class="form-group">
-                        <label>Music Card Cover Image URL</label>
-                        <input type="url" id="musicCoverUrl" placeholder="https://example.com/cover.jpg">
-                        <img id="musicCoverPreview" class="preview-image" style="display: none;">
+                        <label>Music Card Cover</label>
+                        <div class="upload-area" onclick="document.getElementById('musicCoverFileInput').click()" id="musicCoverUploadArea">
+                            <div class="upload-icon">🎨</div>
+                            <div class="upload-text">Click or Drag & Drop</div>
+                            <div class="upload-text-small">PNG, JPG (Max 5MB)</div>
+                        </div>
+                        <input type="file" id="musicCoverFileInput" class="file-input" accept="image/*" onchange="handleFileUpload(this, 'musicCover')">
+                        <div class="uploaded-preview" id="musicCoverPreview">
+                            <img id="musicCoverPreviewImg" src="" alt="Preview">
+                            <div class="uploaded-info">
+                                <div class="uploaded-name" id="musicCoverFileName"></div>
+                                <div class="uploaded-size" id="musicCoverFileSize"></div>
+                            </div>
+                            <button class="remove-upload" onclick="removeUpload('musicCover')">Remove</button>
+                        </div>
                     </div>
+
+                    <div class="form-group">
+                        <label>Or Use Cover URL</label>
+                        <input type="url" id="musicCoverUrl" placeholder="https://example.com/cover.jpg">
+                    </div>
+
                     <button class="save-btn" onclick="saveMusicSettings()">Save Music</button>
                 </div>
 
-                <!-- Social Links -->
                 <div class="setting-card">
                     <h3>Social Links</h3>
                     <div class="form-group">
@@ -1085,26 +1345,45 @@ html
                     <button class="save-btn" onclick="saveSocialLinks()">Save Social Links</button>
                 </div>
 
-                <!-- Discord Card Settings -->
                 <div class="setting-card">
                     <h3>Discord Card Settings</h3>
+                    
                     <div class="form-group">
-                        <label>Discord Avatar URL</label>
-                        <input type="url" id="discordAvatarUrl" placeholder="https://cdn.discordapp.com/avatars/...">
-                        <img id="discordAvatarPreview" class="preview-image" style="display: none;">
+                        <label>Discord Avatar</label>
+                        <div class="upload-area" onclick="document.getElementById('discordAvatarFileInput').click()" id="discordAvatarUploadArea">
+                            <div class="upload-icon">👤</div>
+                            <div class="upload-text">Click or Drag & Drop</div>
+                            <div class="upload-text-small">PNG, JPG, GIF (Max 5MB)</div>
+                        </div>
+                        <input type="file" id="discordAvatarFileInput" class="file-input" accept="image/*" onchange="handleFileUpload(this, 'discordAvatar')">
+                        <div class="uploaded-preview" id="discordAvatarPreview">
+                            <img id="discordAvatarPreviewImg" src="" alt="Preview">
+                            <div class="uploaded-info">
+                                <div class="uploaded-name" id="discordAvatarFileName"></div>
+                                <div class="uploaded-size" id="discordAvatarFileSize"></div>
+                            </div>
+                            <button class="remove-upload" onclick="removeUpload('discordAvatar')">Remove</button>
+                        </div>
                     </div>
+
+                    <div class="form-group">
+                        <label>Or Use URL</label>
+                        <input type="url" id="discordAvatarUrl" placeholder="https://cdn.discordapp.com/avatars/...">
+                    </div>
+
                     <div class="form-group">
                         <label>Discord Username</label>
                         <input type="text" id="discordUsernameInput" placeholder="dengehh ⭐ STAR">
                     </div>
+
                     <div class="form-group">
                         <label>Discord Status</label>
                         <input type="text" id="discordStatusInput" placeholder="last seen 1h ago">
                     </div>
+
                     <button class="save-btn" onclick="saveDiscordSettings()">Save Discord Card</button>
                 </div>
 
-                <!-- Enter Screen Settings -->
                 <div class="setting-card">
                     <h3>Enter Screen Settings</h3>
                     <div class="form-group">
@@ -1117,24 +1396,31 @@ html
         </div>
     </div>
 
-    <!-- Background Audio -->
     <audio id="bgAudio" loop>
         <source src="" type="audio/mpeg">
     </audio>
 
     <script>
-        // Configuration
         const ADMIN_PASSWORD = 'EMRE123';
         const STORAGE_KEY = 'profile_settings';
 
-        // Default settings
+        let uploadedFiles = {
+            avatar: null,
+            background: null,
+            music: null,
+            musicCover: null,
+            discordAvatar: null
+        };
+
         let settings = {
             profile: {
                 avatar: 'https://cdn.discordapp.com/avatars/1040502104348954694/b5cf99b73082f118e1bfa396e5d547cc.png?size=1024',
                 username: 'dengehh',
                 title: 'Lord',
                 statusText: 'sleeping zzz',
-                statusColor: '#43b581'
+                statusColor: '#43b581',
+                nameGlowing: false,
+                nameGradient: false
             },
             background: {
                 url: '',
@@ -1163,7 +1449,6 @@ html
             }
         };
 
-        // Load settings from storage
         function loadSettings() {
             const stored = localStorage.getItem(STORAGE_KEY);
             if (stored) {
@@ -1172,29 +1457,31 @@ html
             applySettings();
         }
 
-        // Save settings to storage
         function saveSettings() {
             localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
         }
 
-        // Apply all settings to page
         function applySettings() {
-            // Profile
             document.getElementById('profileAvatar').style.backgroundImage = `url('${settings.profile.avatar}')`;
             document.getElementById('profileUsername').textContent = settings.profile.username;
             document.getElementById('profileTitle').textContent = settings.profile.title;
             document.getElementById('statusText').textContent = settings.profile.statusText;
             document.getElementById('statusIndicator').style.background = settings.profile.statusColor;
 
-            // Background
+            const username = document.getElementById('profileUsername');
+            username.classList.remove('glowing', 'gradient');
+            if (settings.profile.nameGlowing) {
+                username.classList.add('glowing');
+            }
+            if (settings.profile.nameGradient) {
+                username.classList.add('gradient');
+            }
+
             updateBackground();
             document.querySelector('.background').style.opacity = settings.background.opacity / 100;
             
-            if (!settings.background.snowEffect) {
-                document.getElementById('snow').style.display = 'none';
-            }
+            document.getElementById('snow').style.display = settings.background.snowEffect ? 'block' : 'none';
 
-            // Music
             if (settings.music.url) {
                 document.getElementById('bgAudio').querySelector('source').src = settings.music.url;
                 document.getElementById('bgAudio').load();
@@ -1207,22 +1494,19 @@ html
                 document.getElementById('musicCoverImage').src = settings.music.coverUrl;
             }
 
-            // Discord Card
             document.getElementById('discordAvatar').src = settings.discordCard.avatar;
             document.getElementById('discordUsername').textContent = settings.discordCard.username;
             document.getElementById('discordStatus').textContent = settings.discordCard.status;
 
-            // Enter Screen
             document.getElementById('enterLogoText').textContent = settings.enterScreen.logoText;
         }
 
-        // Update background (image, gif, or video)
         function updateBackground() {
             const container = document.getElementById('backgroundContainer');
             container.innerHTML = '';
             
             if (settings.background.url) {
-                const ext = settings.background.url.split('.').pop().toLowerCase();
+                const ext = settings.background.url.split('.').pop().toLowerCase().split('?')[0];
                 
                 if (ext === 'mp4' || ext === 'webm') {
                     const video = document.createElement('video');
@@ -1240,10 +1524,119 @@ html
             }
         }
 
-        // Check if on /panel route
+        function handleFileUpload(input, type) {
+            const file = input.files[0];
+            if (!file) return;
+
+            const maxSizes = {
+                avatar: 5 * 1024 * 1024,
+                background: 20 * 1024 * 1024,
+                music: 10 * 1024 * 1024,
+                musicCover: 5 * 1024 * 1024,
+                discordAvatar: 5 * 1024 * 1024
+            };
+
+            if (file.size > maxSizes[type]) {
+                alert(`File size exceeds maximum limit of ${maxSizes[type] / (1024 * 1024)}MB`);
+                input.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadedFiles[type] = e.target.result;
+                showPreview(type, file, e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function showPreview(type, file, dataUrl) {
+            const preview = document.getElementById(`${type}Preview`);
+            const fileName = document.getElementById(`${type}FileName`);
+            const fileSize = document.getElementById(`${type}FileSize`);
+
+            fileName.textContent = file.name;
+            fileSize.textContent = formatFileSize(file.size);
+
+            if (type === 'avatar' || type === 'musicCover' || type === 'discordAvatar') {
+                const img = document.getElementById(`${type}PreviewImg`);
+                img.src = dataUrl;
+            } else if (type === 'background') {
+                const mediaContainer = document.getElementById('backgroundPreviewMedia');
+                mediaContainer.innerHTML = '';
+                
+                if (file.type.startsWith('video/')) {
+                    const video = document.createElement('video');
+                    video.src = dataUrl;
+                    video.style.width = '80px';
+                    video.style.height = '80px';
+                    video.style.objectFit = 'cover';
+                    video.style.borderRadius = '8px';
+                    video.muted = true;
+                    video.loop = true;
+                    video.play();
+                    mediaContainer.appendChild(video);
+                } else {
+                    const img = document.createElement('img');
+                    img.src = dataUrl;
+                    img.style.width = '80px';
+                    img.style.height = '80px';
+                    img.style.objectFit = 'cover';
+                    img.style.borderRadius = '8px';
+                    mediaContainer.appendChild(img);
+                }
+            }
+
+            preview.classList.add('show');
+        }
+
+        function removeUpload(type) {
+            uploadedFiles[type] = null;
+            document.getElementById(`${type}FileInput`).value = '';
+            document.getElementById(`${type}Preview`).classList.remove('show');
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+        }
+
+        function setupDragAndDrop() {
+            const areas = ['avatar', 'background', 'music', 'musicCover', 'discordAvatar'];
+            
+            areas.forEach(type => {
+                const area = document.getElementById(`${type}UploadArea`);
+                if (!area) return;
+
+                area.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    area.classList.add('dragover');
+                });
+
+                area.addEventListener('dragleave', () => {
+                    area.classList.remove('dragover');
+                });
+
+                area.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    area.classList.remove('dragover');
+                    
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0) {
+                        const input = document.getElementById(`${type}FileInput`);
+                        input.files = files;
+                        handleFileUpload(input, type);
+                    }
+                });
+            });
+        }
+
         function checkRoute() {
             const path = window.location.pathname;
-            if (path === '/panel' || path === '/panel.html') {
+            if (path === '/panel' || path === '/panel.html' || window.location.hash === '#panel') {
                 document.getElementById('adminPanel').classList.add('active');
                 document.getElementById('mainContainer').style.display = 'none';
                 document.getElementById('enterOverlay').style.display = 'none';
@@ -1251,7 +1644,6 @@ html
             }
         }
 
-        // Login function
         function login(event) {
             event.preventDefault();
             const password = document.getElementById('passwordInput').value;
@@ -1266,102 +1658,55 @@ html
             }
         }
 
-        // Logout function
         function logout() {
             document.getElementById('loginContainer').style.display = 'block';
             document.getElementById('panelContainer').classList.remove('active');
             document.getElementById('passwordInput').value = '';
         }
 
-        // Load current values into panel inputs
         function loadPanelValues() {
-            // Profile
             document.getElementById('avatarUrl').value = settings.profile.avatar;
             document.getElementById('usernameInput').value = settings.profile.username;
             document.getElementById('titleInput').value = settings.profile.title;
             document.getElementById('statusTextInput').value = settings.profile.statusText;
             document.getElementById('statusColor').value = settings.profile.statusColor;
+            document.getElementById('nameGlowing').checked = settings.profile.nameGlowing || false;
+            document.getElementById('nameGradient').checked = settings.profile.nameGradient || false;
 
-            // Background
             document.getElementById('backgroundUrl').value = settings.background.url;
             document.getElementById('backgroundOpacity').value = settings.background.opacity;
-            document.getElementById('snowEffect').value = settings.background.snowEffect.toString();
+            document.getElementById('snowEffect').checked = settings.background.snowEffect;
 
-            // Music
             document.getElementById('musicUrl').value = settings.music.url;
             document.getElementById('musicVolume').value = settings.music.volume;
             document.getElementById('musicCardTitle').value = settings.music.cardTitle;
             document.getElementById('musicCoverUrl').value = settings.music.coverUrl;
 
-            // Social
             document.getElementById('spotifyLink').value = settings.social.spotify;
             document.getElementById('discordLink').value = settings.social.discord;
             document.getElementById('youtubeLink').value = settings.social.youtube;
             document.getElementById('githubLink').value = settings.social.github;
 
-            // Discord Card
             document.getElementById('discordAvatarUrl').value = settings.discordCard.avatar;
             document.getElementById('discordUsernameInput').value = settings.discordCard.username;
             document.getElementById('discordStatusInput').value = settings.discordCard.status;
 
-            // Enter Screen
             document.getElementById('enterLogoInput').value = settings.enterScreen.logoText;
-
-            // Setup preview listeners
-            setupPreviewListeners();
         }
 
-        // Setup image preview listeners
-        function setupPreviewListeners() {
-            document.getElementById('avatarUrl').addEventListener('input', function() {
-                const preview = document.getElementById('avatarPreview');
-                if (this.value) {
-                    preview.src = this.value;
-                    preview.style.display = 'block';
-                } else {
-                    preview.style.display = 'none';
-                }
-            });
-
-            document.getElementById('backgroundUrl').addEventListener('input', function() {
-                const preview = document.getElementById('backgroundPreview');
-                const ext = this.value.split('.').pop().toLowerCase();
-                if (this.value && (ext === 'jpg' || ext === 'jpeg' || ext === 'png' || ext === 'gif')) {
-                    preview.src = this.value;
-                    preview.style.display = 'block';
-                } else {
-                    preview.style.display = 'none';
-                }
-            });
-
-            document.getElementById('musicCoverUrl').addEventListener('input', function() {
-                const preview = document.getElementById('musicCoverPreview');
-                if (this.value) {
-                    preview.src = this.value;
-                    preview.style.display = 'block';
-                } else {
-                    preview.style.display = 'none';
-                }
-            });
-
-            document.getElementById('discordAvatarUrl').addEventListener('input', function() {
-                const preview = document.getElementById('discordAvatarPreview');
-                if (this.value) {
-                    preview.src = this.value;
-                    preview.style.display = 'block';
-                } else {
-                    preview.style.display = 'none';
-                }
-            });
-        }
-
-        // Save functions
         function saveProfileSettings() {
-            settings.profile.avatar = document.getElementById('avatarUrl').value || settings.profile.avatar;
+            if (uploadedFiles.avatar) {
+                settings.profile.avatar = uploadedFiles.avatar;
+            } else if (document.getElementById('avatarUrl').value) {
+                settings.profile.avatar = document.getElementById('avatarUrl').value;
+            }
+            
             settings.profile.username = document.getElementById('usernameInput').value || settings.profile.username;
             settings.profile.title = document.getElementById('titleInput').value || settings.profile.title;
             settings.profile.statusText = document.getElementById('statusTextInput').value || settings.profile.statusText;
             settings.profile.statusColor = document.getElementById('statusColor').value;
+            settings.profile.nameGlowing = document.getElementById('nameGlowing').checked;
+            settings.profile.nameGradient = document.getElementById('nameGradient').checked;
             
             saveSettings();
             applySettings();
@@ -1369,9 +1714,14 @@ html
         }
 
         function saveBackgroundSettings() {
-            settings.background.url = document.getElementById('backgroundUrl').value;
+            if (uploadedFiles.background) {
+                settings.background.url = uploadedFiles.background;
+            } else if (document.getElementById('backgroundUrl').value) {
+                settings.background.url = document.getElementById('backgroundUrl').value;
+            }
+            
             settings.background.opacity = parseInt(document.getElementById('backgroundOpacity').value) || 15;
-            settings.background.snowEffect = document.getElementById('snowEffect').value === 'true';
+            settings.background.snowEffect = document.getElementById('snowEffect').checked;
             
             saveSettings();
             applySettings();
@@ -1379,10 +1729,20 @@ html
         }
 
         function saveMusicSettings() {
-            settings.music.url = document.getElementById('musicUrl').value;
+            if (uploadedFiles.music) {
+                settings.music.url = uploadedFiles.music;
+            } else if (document.getElementById('musicUrl').value) {
+                settings.music.url = document.getElementById('musicUrl').value;
+            }
+            
+            if (uploadedFiles.musicCover) {
+                settings.music.coverUrl = uploadedFiles.musicCover;
+            } else if (document.getElementById('musicCoverUrl').value) {
+                settings.music.coverUrl = document.getElementById('musicCoverUrl').value;
+            }
+            
             settings.music.volume = parseInt(document.getElementById('musicVolume').value) || 25;
             settings.music.cardTitle = document.getElementById('musicCardTitle').value || settings.music.cardTitle;
-            settings.music.coverUrl = document.getElementById('musicCoverUrl').value;
             
             saveSettings();
             applySettings();
@@ -1400,7 +1760,12 @@ html
         }
 
         function saveDiscordSettings() {
-            settings.discordCard.avatar = document.getElementById('discordAvatarUrl').value || settings.discordCard.avatar;
+            if (uploadedFiles.discordAvatar) {
+                settings.discordCard.avatar = uploadedFiles.discordAvatar;
+            } else if (document.getElementById('discordAvatarUrl').value) {
+                settings.discordCard.avatar = document.getElementById('discordAvatarUrl').value;
+            }
+            
             settings.discordCard.username = document.getElementById('discordUsernameInput').value || settings.discordCard.username;
             settings.discordCard.status = document.getElementById('discordStatusInput').value || settings.discordCard.status;
             
@@ -1417,7 +1782,6 @@ html
             alert('Enter screen settings saved successfully!');
         }
 
-        // Kar Yağışı
         function createSnow() {
             const snow = document.getElementById('snow');
             const snowflakeCount = 100;
@@ -1433,7 +1797,6 @@ html
             }
         }
 
-        // Giriş Fonksiyonu
         function enter() {
             const overlay = document.getElementById('enterOverlay');
             const main = document.getElementById('mainContainer');
@@ -1448,7 +1811,6 @@ html
             }, 500);
         }
 
-        // Volume Control Genişletme/Daraltma
         const volumeControl = document.getElementById('volumeControl');
         let isExpanded = false;
 
@@ -1459,7 +1821,6 @@ html
             }
         });
 
-        // Dışarı tıklandığında daralt
         document.addEventListener('click', function(e) {
             if (isExpanded && !volumeControl.contains(e.target)) {
                 isExpanded = false;
@@ -1467,7 +1828,6 @@ html
             }
         });
 
-        // Müzik Kontrolü
         const audio = document.getElementById('bgAudio');
         const volumeSlider = document.getElementById('volumeSlider');
         const volumeIcon = document.getElementById('volumeIcon');
@@ -1498,7 +1858,6 @@ html
             }
         }
 
-        // Sosyal Link Fonksiyonu
         function openLink(platform) {
             const links = {
                 spotify: settings.social.spotify,
@@ -1512,11 +1871,11 @@ html
             }
         }
 
-        // Sayfa Yüklendiğinde
         window.addEventListener('load', () => {
             loadSettings();
             checkRoute();
             createSnow();
+            setupDragAndDrop();
         });
     </script>
 </body>
