@@ -105,6 +105,18 @@
             }
         }
 
+        .matrix-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            display: none;
+            opacity: 0.3;
+        }
+
         .enter-overlay {
             position: fixed;
             top: 0;
@@ -181,11 +193,6 @@
             box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
         }
 
-        .enter-button span {
-            position: relative;
-            z-index: 1;
-        }
-
         .volume-control {
             position: fixed;
             top: 30px;
@@ -247,10 +254,6 @@
             opacity: 1;
         }
 
-        .volume-slider:hover {
-            background: rgba(255, 255, 255, 0.18);
-        }
-
         .volume-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             width: 14px;
@@ -265,17 +268,6 @@
         .volume-slider::-webkit-slider-thumb:hover {
             transform: scale(1.2);
             box-shadow: 0 3px 12px rgba(255, 255, 255, 0.3);
-        }
-
-        .volume-slider::-moz-range-thumb {
-            width: 14px;
-            height: 14px;
-            background: #ffffff;
-            border-radius: 50%;
-            cursor: pointer;
-            border: none;
-            transition: all 0.3s;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
 
         .main-container {
@@ -915,20 +907,6 @@
             100% { left: 100%; }
         }
 
-        .color-picker-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .color-picker-wrapper input[type="color"] {
-            width: 60px;
-            height: 40px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
         .upload-area {
             margin-top: 15px;
             padding: 30px;
@@ -938,7 +916,6 @@
             cursor: pointer;
             transition: all 0.3s;
             background: rgba(255, 255, 255, 0.02);
-            position: relative;
         }
 
         .upload-area:hover {
@@ -1128,6 +1105,7 @@
         .toggle-label {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: 15px;
         }
 
@@ -1228,6 +1206,7 @@
     <div class="background" id="backgroundContainer"></div>
     <div class="snow" id="snow"></div>
     <div class="particles" id="particles"></div>
+    <canvas class="matrix-effect" id="matrixCanvas"></canvas>
 
     <div class="enter-overlay" id="enterOverlay">
         <div class="enter-logo" id="enterLogoText">dengehh</div>
@@ -1357,7 +1336,256 @@
                                 <div class="uploaded-name" id="avatarFileName"></div>
                                 <div class="uploaded-size" id="avatarFileSize"></div>
                             </div>
-                            <button class="save-btn" onclick="saveDiscordSettings()">Save Discord Card</button>
+                            <button class="remove-upload" onclick="removeUpload('avatar')">Remove</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Or Use URL</label>
+                        <input type="url" id="avatarUrl" placeholder="https://example.com/avatar.png">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" id="usernameInput" placeholder="dengehh">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Username Effects</label>
+                        <div style="display: grid; gap: 15px;">
+                            <label class="toggle-label">
+                                <span style="color: rgba(255,255,255,0.6); font-size: 12px;">Glowing Effect</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="nameGlowing">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </label>
+                            <label class="toggle-label">
+                                <span style="color: rgba(255,255,255,0.6); font-size: 12px;">Gradient Effect</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="nameGradient">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </label>
+                            <label class="toggle-label">
+                                <span style="color: rgba(255,255,255,0.6); font-size: 12px;">Rainbow Effect</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="nameRainbow">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Title</label>
+                        <input type="text" id="titleInput" placeholder="Lord">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Status Text</label>
+                        <input type="text" id="statusTextInput" placeholder="sleeping zzz">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Status Color</label>
+                        <input type="color" id="statusColor" value="#43b581">
+                    </div>
+
+                    <button class="save-btn" onclick="saveProfileSettings()">Save Profile</button>
+                </div>
+
+                <div class="setting-card">
+                    <h3>Background Settings</h3>
+                    
+                    <div class="form-group">
+                        <label>Background Media</label>
+                        <div class="upload-area" onclick="document.getElementById('backgroundFileInput').click()" id="backgroundUploadArea">
+                            <div class="upload-icon">🎬</div>
+                            <div class="upload-text">Click or Drag & Drop</div>
+                            <div class="upload-text-small">PNG, JPG, GIF, MP4 (Max 3MB)</div>
+                        </div>
+                        <input type="file" id="backgroundFileInput" class="file-input" accept="image/*,video/*" onchange="handleFileUpload(this, 'background')">
+                        <div class="upload-progress" id="backgroundProgress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="backgroundProgressFill" style="width: 0%"></div>
+                            </div>
+                            <div class="progress-text" id="backgroundProgressText">Uploading... 0%</div>
+                        </div>
+                        <div class="uploaded-preview" id="backgroundPreview">
+                            <div id="backgroundPreviewMedia"></div>
+                            <div class="uploaded-info">
+                                <div class="uploaded-name" id="backgroundFileName"></div>
+                                <div class="uploaded-size" id="backgroundFileSize"></div>
+                            </div>
+                            <button class="remove-upload" onclick="removeUpload('background')">Remove</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Or Use URL</label>
+                        <input type="url" id="backgroundUrl" placeholder="https://example.com/background.gif">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Background Opacity (0-100)</label>
+                        <input type="number" id="backgroundOpacity" min="0" max="100" value="15">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="toggle-label">
+                            <span style="color: rgba(255,255,255,0.6); font-size: 12px;">Snow Effect</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="snowEffect" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </label>
+                    </div>
+
+                    <button class="save-btn" onclick="saveBackgroundSettings()">Save Background</button>
+                </div>
+
+                <div class="setting-card">
+                    <h3>Music Settings</h3>
+                    
+                    <div class="form-group">
+                        <label>Background Music</label>
+                        <div class="upload-area" onclick="document.getElementById('musicFileInput').click()" id="musicUploadArea">
+                            <div class="upload-icon">🎵</div>
+                            <div class="upload-text">Click or Drag & Drop</div>
+                            <div class="upload-text-small">MP3, WAV (Max 3MB)</div>
+                        </div>
+                        <input type="file" id="musicFileInput" class="file-input" accept="audio/*" onchange="handleFileUpload(this, 'music')">
+                        <div class="upload-progress" id="musicProgress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="musicProgressFill" style="width: 0%"></div>
+                            </div>
+                            <div class="progress-text" id="musicProgressText">Uploading... 0%</div>
+                        </div>
+                        <div class="uploaded-preview" id="musicPreview">
+                            <div style="width: 80px; height: 80px; background: rgba(67,181,129,0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 30px;">🎵</div>
+                            <div class="uploaded-info">
+                                <div class="uploaded-name" id="musicFileName"></div>
+                                <div class="uploaded-size" id="musicFileSize"></div>
+                            </div>
+                            <button class="remove-upload" onclick="removeUpload('music')">Remove</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Or Use URL</label>
+                        <input type="url" id="musicUrl" placeholder="https://example.com/music.mp3">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Music Volume (0-100)</label>
+                        <input type="number" id="musicVolume" min="0" max="100" value="25">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Music Card Title</label>
+                        <input type="text" id="musicCardTitle" placeholder="My Spotify Playlist">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Music Cover URL</label>
+                        <input type="url" id="musicCoverUrl" placeholder="https://example.com/cover.jpg">
+                    </div>
+
+                    <button class="save-btn" onclick="saveMusicSettings()">Save Music</button>
+                </div>
+
+                <div class="setting-card">
+                    <h3>Visual Effects</h3>
+                    
+                    <div class="form-group">
+                        <label class="toggle-label">
+                            <span style="color: rgba(255,255,255,0.6); font-size: 12px;">Particle Effects</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="particleEffect">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="toggle-label">
+                            <span style="color: rgba(255,255,255,0.6); font-size: 12px;">Cursor Trail</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="cursorTrail">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="toggle-label">
+                            <span style="color: rgba(255,255,255,0.6); font-size: 12px;">Avatar Shake on Click</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="avatarShake">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="toggle-label">
+                            <span style="color: rgba(255,255,255,0.6); font-size: 12px;">Matrix Effect</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="matrixEffect">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Particle Color</label>
+                        <input type="color" id="particleColor" value="#43b581">
+                    </div>
+
+                    <button class="save-btn" onclick="saveVisualEffects()">Save Effects</button>
+                </div>
+
+                <div class="setting-card">
+                    <h3>Social Links</h3>
+                    <div class="form-group">
+                        <label>Spotify Link</label>
+                        <input type="url" id="spotifyLink" placeholder="https://spotify.link/...">
+                    </div>
+                    <div class="form-group">
+                        <label>Discord Link</label>
+                        <input type="url" id="discordLink" placeholder="https://discord.gg/...">
+                    </div>
+                    <div class="form-group">
+                        <label>YouTube Link</label>
+                        <input type="url" id="youtubeLink" placeholder="https://youtube.com/...">
+                    </div>
+                    <div class="form-group">
+                        <label>GitHub Link</label>
+                        <input type="url" id="githubLink" placeholder="https://github.com/...">
+                    </div>
+                    <button class="save-btn" onclick="saveSocialLinks()">Save Social Links</button>
+                </div>
+
+                <div class="setting-card">
+                    <h3>Discord Card Settings</h3>
+                    
+                    <div class="form-group">
+                        <label>Discord Avatar URL</label>
+                        <input type="url" id="discordAvatarUrl" placeholder="https://cdn.discordapp.com/avatars/...">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Discord Username</label>
+                        <input type="text" id="discordUsernameInput" placeholder="dengehh ⭐ STAR">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Discord Status</label>
+                        <input type="text" id="discordStatusInput" placeholder="last seen 1h ago">
+                    </div>
+
+                    <button class="save-btn" onclick="saveDiscordSettings()">Save Discord Card</button>
                 </div>
 
                 <div class="setting-card">
@@ -1383,16 +1611,8 @@
 
     <script>
         const ADMIN_PASSWORD = 'EMRE123';
-        const STORAGE_KEY = 'profile_settings_v2';
-        const MAX_FILE_SIZE = 3 * 1024 * 1024; // 3MB
-
-        let uploadedFiles = {
-            avatar: null,
-            background: null,
-            music: null,
-            musicCover: null,
-            discordAvatar: null
-        };
+        const STORAGE_KEY = 'profile_settings_v3';
+        const MAX_FILE_SIZE = 3 * 1024 * 1024;
 
         let settings = {
             profile: {
@@ -1434,6 +1654,7 @@
                 particles: false,
                 cursorTrail: false,
                 avatarShake: false,
+                matrixEffect: false,
                 particleColor: '#43b581'
             }
         };
@@ -1441,21 +1662,14 @@
         let cursorTrails = [];
         let mouseX = 0;
         let mouseY = 0;
+        let matrixInterval = null;
 
         function loadSettings() {
             const stored = localStorage.getItem(STORAGE_KEY);
             if (stored) {
                 try {
                     const loaded = JSON.parse(stored);
-                    settings = Object.assign({}, settings, loaded);
-                    if (!settings.visualEffects) {
-                        settings.visualEffects = {
-                            particles: false,
-                            cursorTrail: false,
-                            avatarShake: false,
-                            particleColor: '#43b581'
-                        };
-                    }
+                    settings = {...settings, ...loaded};
                 } catch (e) {
                     console.error('Error loading settings:', e);
                 }
@@ -1525,6 +1739,12 @@
                 disableCursorTrail();
             }
 
+            if (settings.visualEffects.matrixEffect) {
+                enableMatrixEffect();
+            } else {
+                disableMatrixEffect();
+            }
+
             if (settings.visualEffects.avatarShake) {
                 document.getElementById('profileAvatar').style.cursor = 'pointer';
                 document.getElementById('profileAvatar').onclick = function() {
@@ -1587,6 +1807,49 @@
             requestAnimationFrame(animateCursorTrail);
         }
 
+        function enableMatrixEffect() {
+            const canvas = document.getElementById('matrixCanvas');
+            canvas.style.display = 'block';
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const letters = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+            const fontSize = 16;
+            const columns = canvas.width / fontSize;
+            const drops = Array(Math.floor(columns)).fill(1);
+            
+            function drawMatrix() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                ctx.fillStyle = '#0F0';
+                ctx.font = fontSize + 'px monospace';
+                
+                for (let i = 0; i < drops.length; i++) {
+                    const text = letters[Math.floor(Math.random() * letters.length)];
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+            
+            matrixInterval = setInterval(drawMatrix, 33);
+        }
+
+        function disableMatrixEffect() {
+            const canvas = document.getElementById('matrixCanvas');
+            canvas.style.display = 'none';
+            if (matrixInterval) {
+                clearInterval(matrixInterval);
+                matrixInterval = null;
+            }
+        }
+
         function updateBackground() {
             const container = document.getElementById('backgroundContainer');
             container.innerHTML = '';
@@ -1615,7 +1878,7 @@
             if (!file) return;
 
             if (file.size > MAX_FILE_SIZE) {
-                showNotification(`File size exceeds maximum limit of 3MB`, 'error');
+                showNotification(`File size exceeds 3MB limit`, 'error');
                 input.value = '';
                 return;
             }
@@ -1626,10 +1889,17 @@
             simulateUpload(file, type, (progress) => {
                 updateProgress(type, progress);
             }, (dataUrl) => {
-                uploadedFiles[type] = dataUrl;
+                if (type === 'avatar') {
+                    settings.profile.avatar = dataUrl;
+                } else if (type === 'background') {
+                    settings.background.url = dataUrl;
+                } else if (type === 'music') {
+                    settings.music.url = dataUrl;
+                }
+                
                 showPreview(type, file, dataUrl);
                 uploadArea.classList.remove('uploading');
-                showNotification(`${type.charAt(0).toUpperCase() + type.slice(1)} uploaded successfully!`);
+                showNotification(`${type.charAt(0).toUpperCase() + type.slice(1)} uploaded!`);
             });
         }
 
@@ -1675,9 +1945,8 @@
             fileName.textContent = file.name;
             fileSize.textContent = formatFileSize(file.size);
 
-            if (type === 'avatar' || type === 'musicCover' || type === 'discordAvatar') {
-                const img = document.getElementById(`${type}PreviewImg`);
-                img.src = dataUrl;
+            if (type === 'avatar') {
+                document.getElementById('avatarPreviewImg').src = dataUrl;
             } else if (type === 'background') {
                 const mediaContainer = document.getElementById('backgroundPreviewMedia');
                 mediaContainer.innerHTML = '';
@@ -1708,7 +1977,14 @@
         }
 
         function removeUpload(type) {
-            uploadedFiles[type] = null;
+            if (type === 'avatar') {
+                settings.profile.avatar = 'https://cdn.discordapp.com/avatars/1040502104348954694/b5cf99b73082f118e1bfa396e5d547cc.png?size=1024';
+            } else if (type === 'background') {
+                settings.background.url = '';
+            } else if (type === 'music') {
+                settings.music.url = '';
+            }
+            
             document.getElementById(`${type}FileInput`).value = '';
             document.getElementById(`${type}Preview`).classList.remove('show');
             showNotification(`${type.charAt(0).toUpperCase() + type.slice(1)} removed`);
@@ -1717,13 +1993,13 @@
         function formatFileSize(bytes) {
             if (bytes === 0) return '0 Bytes';
             const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const sizes = ['Bytes', 'KB', 'MB'];
             const i = Math.floor(Math.log(bytes) / Math.log(k));
             return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
         }
 
         function setupDragAndDrop() {
-            const areas = ['avatar', 'background', 'music', 'musicCover', 'discordAvatar'];
+            const areas = ['avatar', 'background', 'music'];
             
             areas.forEach(type => {
                 const area = document.getElementById(`${type}UploadArea`);
@@ -1809,9 +2085,9 @@
             document.getElementById('titleInput').value = settings.profile.title;
             document.getElementById('statusTextInput').value = settings.profile.statusText;
             document.getElementById('statusColor').value = settings.profile.statusColor;
-            document.getElementById('nameGlowing').checked = settings.profile.nameGlowing || false;
-            document.getElementById('nameGradient').checked = settings.profile.nameGradient || false;
-            document.getElementById('nameRainbow').checked = settings.profile.nameRainbow || false;
+            document.getElementById('nameGlowing').checked = settings.profile.nameGlowing;
+            document.getElementById('nameGradient').checked = settings.profile.nameGradient;
+            document.getElementById('nameRainbow').checked = settings.profile.nameRainbow;
 
             document.getElementById('backgroundUrl').value = settings.background.url;
             document.getElementById('backgroundOpacity').value = settings.background.opacity;
@@ -1833,12 +2109,11 @@
 
             document.getElementById('enterLogoInput').value = settings.enterScreen.logoText;
 
-            if (settings.visualEffects) {
-                document.getElementById('particleEffect').checked = settings.visualEffects.particles || false;
-                document.getElementById('cursorTrail').checked = settings.visualEffects.cursorTrail || false;
-                document.getElementById('avatarShake').checked = settings.visualEffects.avatarShake || false;
-                document.getElementById('particleColor').value = settings.visualEffects.particleColor || '#43b581';
-            }
+            document.getElementById('particleEffect').checked = settings.visualEffects.particles;
+            document.getElementById('cursorTrail').checked = settings.visualEffects.cursorTrail;
+            document.getElementById('avatarShake').checked = settings.visualEffects.avatarShake;
+            document.getElementById('matrixEffect').checked = settings.visualEffects.matrixEffect;
+            document.getElementById('particleColor').value = settings.visualEffects.particleColor;
         }
 
         function saveProfileSettings() {
@@ -1847,15 +2122,14 @@
             btn.disabled = true;
 
             setTimeout(() => {
-                if (uploadedFiles.avatar) {
-                    settings.profile.avatar = uploadedFiles.avatar;
-                } else if (document.getElementById('avatarUrl').value) {
-                    settings.profile.avatar = document.getElementById('avatarUrl').value;
+                const avatarUrl = document.getElementById('avatarUrl').value;
+                if (avatarUrl && !settings.profile.avatar.startsWith('data:')) {
+                    settings.profile.avatar = avatarUrl;
                 }
                 
-                settings.profile.username = document.getElementById('usernameInput').value || settings.profile.username;
-                settings.profile.title = document.getElementById('titleInput').value || settings.profile.title;
-                settings.profile.statusText = document.getElementById('statusTextInput').value || settings.profile.statusText;
+                settings.profile.username = document.getElementById('usernameInput').value;
+                settings.profile.title = document.getElementById('titleInput').value;
+                settings.profile.statusText = document.getElementById('statusTextInput').value;
                 settings.profile.statusColor = document.getElementById('statusColor').value;
                 settings.profile.nameGlowing = document.getElementById('nameGlowing').checked;
                 settings.profile.nameGradient = document.getElementById('nameGradient').checked;
@@ -1863,7 +2137,7 @@
                 
                 if (saveSettings()) {
                     applySettings();
-                    showNotification('Profile settings saved successfully!');
+                    showNotification('Profile saved successfully!');
                 }
                 
                 btn.classList.remove('loading');
@@ -1877,18 +2151,17 @@
             btn.disabled = true;
 
             setTimeout(() => {
-                if (uploadedFiles.background) {
-                    settings.background.url = uploadedFiles.background;
-                } else if (document.getElementById('backgroundUrl').value) {
-                    settings.background.url = document.getElementById('backgroundUrl').value;
+                const bgUrl = document.getElementById('backgroundUrl').value;
+                if (bgUrl && !settings.background.url.startsWith('data:')) {
+                    settings.background.url = bgUrl;
                 }
                 
-                settings.background.opacity = parseInt(document.getElementById('backgroundOpacity').value) || 15;
+                settings.background.opacity = parseInt(document.getElementById('backgroundOpacity').value);
                 settings.background.snowEffect = document.getElementById('snowEffect').checked;
                 
                 if (saveSettings()) {
                     applySettings();
-                    showNotification('Background settings saved successfully!');
+                    showNotification('Background saved successfully!');
                 }
                 
                 btn.classList.remove('loading');
@@ -1902,24 +2175,18 @@
             btn.disabled = true;
 
             setTimeout(() => {
-                if (uploadedFiles.music) {
-                    settings.music.url = uploadedFiles.music;
-                } else if (document.getElementById('musicUrl').value) {
-                    settings.music.url = document.getElementById('musicUrl').value;
+                const musicUrl = document.getElementById('musicUrl').value;
+                if (musicUrl && !settings.music.url.startsWith('data:')) {
+                    settings.music.url = musicUrl;
                 }
                 
-                if (uploadedFiles.musicCover) {
-                    settings.music.coverUrl = uploadedFiles.musicCover;
-                } else if (document.getElementById('musicCoverUrl').value) {
-                    settings.music.coverUrl = document.getElementById('musicCoverUrl').value;
-                }
-                
-                settings.music.volume = parseInt(document.getElementById('musicVolume').value) || 25;
-                settings.music.cardTitle = document.getElementById('musicCardTitle').value || settings.music.cardTitle;
+                settings.music.volume = parseInt(document.getElementById('musicVolume').value);
+                settings.music.cardTitle = document.getElementById('musicCardTitle').value;
+                settings.music.coverUrl = document.getElementById('musicCoverUrl').value;
                 
                 if (saveSettings()) {
                     applySettings();
-                    showNotification('Music settings saved successfully!');
+                    showNotification('Music saved successfully!');
                 }
                 
                 btn.classList.remove('loading');
@@ -1933,16 +2200,15 @@
             btn.disabled = true;
 
             setTimeout(() => {
-                settings.visualEffects = {
-                    particles: document.getElementById('particleEffect').checked,
-                    cursorTrail: document.getElementById('cursorTrail').checked,
-                    avatarShake: document.getElementById('avatarShake').checked,
-                    particleColor: document.getElementById('particleColor').value
-                };
+                settings.visualEffects.particles = document.getElementById('particleEffect').checked;
+                settings.visualEffects.cursorTrail = document.getElementById('cursorTrail').checked;
+                settings.visualEffects.avatarShake = document.getElementById('avatarShake').checked;
+                settings.visualEffects.matrixEffect = document.getElementById('matrixEffect').checked;
+                settings.visualEffects.particleColor = document.getElementById('particleColor').value;
                 
                 if (saveSettings()) {
                     applySettings();
-                    showNotification('Visual effects saved successfully!');
+                    showNotification('Visual effects saved!');
                 }
                 
                 btn.classList.remove('loading');
@@ -1956,13 +2222,13 @@
             btn.disabled = true;
 
             setTimeout(() => {
-                settings.social.spotify = document.getElementById('spotifyLink').value || settings.social.spotify;
-                settings.social.discord = document.getElementById('discordLink').value || settings.social.discord;
+                settings.social.spotify = document.getElementById('spotifyLink').value;
+                settings.social.discord = document.getElementById('discordLink').value;
                 settings.social.youtube = document.getElementById('youtubeLink').value;
                 settings.social.github = document.getElementById('githubLink').value;
                 
                 if (saveSettings()) {
-                    showNotification('Social links saved successfully!');
+                    showNotification('Social links saved!');
                 }
                 
                 btn.classList.remove('loading');
@@ -1976,18 +2242,13 @@
             btn.disabled = true;
 
             setTimeout(() => {
-                if (uploadedFiles.discordAvatar) {
-                    settings.discordCard.avatar = uploadedFiles.discordAvatar;
-                } else if (document.getElementById('discordAvatarUrl').value) {
-                    settings.discordCard.avatar = document.getElementById('discordAvatarUrl').value;
-                }
-                
-                settings.discordCard.username = document.getElementById('discordUsernameInput').value || settings.discordCard.username;
-                settings.discordCard.status = document.getElementById('discordStatusInput').value || settings.discordCard.status;
+                settings.discordCard.avatar = document.getElementById('discordAvatarUrl').value;
+                settings.discordCard.username = document.getElementById('discordUsernameInput').value;
+                settings.discordCard.status = document.getElementById('discordStatusInput').value;
                 
                 if (saveSettings()) {
                     applySettings();
-                    showNotification('Discord card settings saved successfully!');
+                    showNotification('Discord card saved!');
                 }
                 
                 btn.classList.remove('loading');
@@ -2001,11 +2262,11 @@
             btn.disabled = true;
 
             setTimeout(() => {
-                settings.enterScreen.logoText = document.getElementById('enterLogoInput').value || settings.enterScreen.logoText;
+                settings.enterScreen.logoText = document.getElementById('enterLogoInput').value;
                 
                 if (saveSettings()) {
                     applySettings();
-                    showNotification('Enter screen settings saved successfully!');
+                    showNotification('Enter screen saved!');
                 }
                 
                 btn.classList.remove('loading');
@@ -2061,33 +2322,17 @@
 
         const audio = document.getElementById('bgAudio');
         const volumeSlider = document.getElementById('volumeSlider');
-        const volumeIcon = document.getElementById('volumeIcon');
-        let isMuted = false;
 
         volumeSlider.addEventListener('input', function(e) {
             e.stopPropagation();
             audio.volume = this.value / 100;
-            updateVolumeIcon();
+            settings.music.volume = parseInt(this.value);
+            saveSettings();
         });
 
         volumeSlider.addEventListener('click', function(e) {
             e.stopPropagation();
         });
-
-        function toggleMute() {
-            isMuted = !isMuted;
-            audio.muted = isMuted;
-            updateVolumeIcon();
-        }
-
-        function updateVolumeIcon() {
-            const icon = volumeIcon.querySelector('svg path');
-            if (isMuted || audio.volume === 0) {
-                icon.setAttribute('d', 'M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z');
-            } else {
-                icon.setAttribute('d', 'M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z');
-            }
-        }
 
         function openLink(platform) {
             const links = {
@@ -2102,6 +2347,28 @@
             }
         }
 
+        document.getElementById('profileUsername').addEventListener('click', function() {
+            this.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 200);
+        });
+
+        let konamiCode = [];
+        const konamiSequence = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+        
+        document.addEventListener('keydown', (e) => {
+            konamiCode.push(e.keyCode);
+            konamiCode = konamiCode.slice(-10);
+            
+            if (konamiCode.join(',') === konamiSequence.join(',')) {
+                showNotification('🎉 Secret unlocked! Rainbow mode activated!');
+                settings.profile.nameRainbow = true;
+                applySettings();
+                saveSettings();
+            }
+        });
+
         window.addEventListener('load', () => {
             loadSettings();
             checkRoute();
@@ -2110,298 +2377,4 @@
         });
     </script>
 </body>
-</html>="remove-upload" onclick="removeUpload('avatar')">Remove</button>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Or Use URL</label>
-                        <input type="url" id="avatarUrl" placeholder="https://example.com/avatar.png">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Username</label>
-                        <input type="text" id="usernameInput" placeholder="dengehh">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Username Effects</label>
-                        <div style="display: grid; gap: 15px;">
-                            <label class="toggle-label">
-                                <span style="color: rgba(255,255,255,0.6); font-size: 12px;">Glowing Effect</span>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" id="nameGlowing">
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </label>
-                            <label class="toggle-label">
-                                <span style="color: rgba(255,255,255,0.6); font-size: 12px;">Gradient Effect</span>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" id="nameGradient">
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </label>
-                            <label class="toggle-label">
-                                <span style="color: rgba(255,255,255,0.6); font-size: 12px;">Rainbow Effect</span>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" id="nameRainbow">
-                                    <span class="toggle-slider"></span>
-                                </label>
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Title</label>
-                        <input type="text" id="titleInput" placeholder="Lord">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Status Text</label>
-                        <input type="text" id="statusTextInput" placeholder="sleeping zzz">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Status Color</label>
-                        <div class="color-picker-wrapper">
-                            <input type="color" id="statusColor" value="#43b581">
-                            <span style="color: rgba(255,255,255,0.5); font-size: 12px;">Online: #43b581, Idle: #faa61a, DND: #f04747</span>
-                        </div>
-                    </div>
-
-                    <button class="save-btn" onclick="saveProfileSettings()">Save Profile</button>
-                </div>
-
-                <div class="setting-card">
-                    <h3>Background Settings</h3>
-                    
-                    <div class="form-group">
-                        <label>Background Media</label>
-                        <div class="upload-area" onclick="document.getElementById('backgroundFileInput').click()" id="backgroundUploadArea">
-                            <div class="upload-icon">🎬</div>
-                            <div class="upload-text">Click or Drag & Drop</div>
-                            <div class="upload-text-small">PNG, JPG, GIF, MP4, WEBM (Max 3MB)</div>
-                        </div>
-                        <input type="file" id="backgroundFileInput" class="file-input" accept="image/*,video/*" onchange="handleFileUpload(this, 'background')">
-                        <div class="upload-progress" id="backgroundProgress">
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="backgroundProgressFill" style="width: 0%"></div>
-                            </div>
-                            <div class="progress-text" id="backgroundProgressText">Uploading... 0%</div>
-                        </div>
-                        <div class="uploaded-preview" id="backgroundPreview">
-                            <div id="backgroundPreviewMedia"></div>
-                            <div class="uploaded-info">
-                                <div class="uploaded-name" id="backgroundFileName"></div>
-                                <div class="uploaded-size" id="backgroundFileSize"></div>
-                            </div>
-                            <button class="remove-upload" onclick="removeUpload('background')">Remove</button>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Or Use URL</label>
-                        <input type="url" id="backgroundUrl" placeholder="https://example.com/background.gif">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Background Opacity (0-100)</label>
-                        <input type="number" id="backgroundOpacity" min="0" max="100" value="15" placeholder="15">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Enable Snow Effect</label>
-                        <label class="toggle-label">
-                            <span style="color: rgba(255,255,255,0.6); font-size: 12px;">Snow Animation</span>
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="snowEffect" checked>
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </label>
-                    </div>
-
-                    <button class="save-btn" onclick="saveBackgroundSettings()">Save Background</button>
-                </div>
-
-                <div class="setting-card">
-                    <h3>Music Settings</h3>
-                    
-                    <div class="form-group">
-                        <label>Background Music</label>
-                        <div class="upload-area" onclick="document.getElementById('musicFileInput').click()" id="musicUploadArea">
-                            <div class="upload-icon">🎵</div>
-                            <div class="upload-text">Click or Drag & Drop</div>
-                            <div class="upload-text-small">MP3, WAV, OGG (Max 3MB)</div>
-                        </div>
-                        <input type="file" id="musicFileInput" class="file-input" accept="audio/*" onchange="handleFileUpload(this, 'music')">
-                        <div class="upload-progress" id="musicProgress">
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="musicProgressFill" style="width: 0%"></div>
-                            </div>
-                            <div class="progress-text" id="musicProgressText">Uploading... 0%</div>
-                        </div>
-                        <div class="uploaded-preview" id="musicPreview">
-                            <div style="width: 80px; height: 80px; background: rgba(67,181,129,0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 30px;">🎵</div>
-                            <div class="uploaded-info">
-                                <div class="uploaded-name" id="musicFileName"></div>
-                                <div class="uploaded-size" id="musicFileSize"></div>
-                            </div>
-                            <button class="remove-upload" onclick="removeUpload('music')">Remove</button>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Or Use URL</label>
-                        <input type="url" id="musicUrl" placeholder="https://example.com/music.mp3">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Music Volume (0-100)</label>
-                        <input type="number" id="musicVolume" min="0" max="100" value="25" placeholder="25">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Music Card Title</label>
-                        <input type="text" id="musicCardTitle" placeholder="My Spotify Playlist">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Music Card Cover</label>
-                        <div class="upload-area" onclick="document.getElementById('musicCoverFileInput').click()" id="musicCoverUploadArea">
-                            <div class="upload-icon">🎨</div>
-                            <div class="upload-text">Click or Drag & Drop</div>
-                            <div class="upload-text-small">PNG, JPG (Max 3MB)</div>
-                        </div>
-                        <input type="file" id="musicCoverFileInput" class="file-input" accept="image/*" onchange="handleFileUpload(this, 'musicCover')">
-                        <div class="upload-progress" id="musicCoverProgress">
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="musicCoverProgressFill" style="width: 0%"></div>
-                            </div>
-                            <div class="progress-text" id="musicCoverProgressText">Uploading... 0%</div>
-                        </div>
-                        <div class="uploaded-preview" id="musicCoverPreview">
-                            <img id="musicCoverPreviewImg" src="" alt="Preview">
-                            <div class="uploaded-info">
-                                <div class="uploaded-name" id="musicCoverFileName"></div>
-                                <div class="uploaded-size" id="musicCoverFileSize"></div>
-                            </div>
-                            <button class="remove-upload" onclick="removeUpload('musicCover')">Remove</button>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Or Use Cover URL</label>
-                        <input type="url" id="musicCoverUrl" placeholder="https://example.com/cover.jpg">
-                    </div>
-
-                    <button class="save-btn" onclick="saveMusicSettings()">Save Music</button>
-                </div>
-
-                <div class="setting-card">
-                    <h3>Visual Effects</h3>
-                    
-                    <div class="form-group">
-                        <label class="toggle-label">
-                            <span style="color: rgba(255,255,255,0.6); font-size: 12px;">Particle Effects</span>
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="particleEffect">
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </label>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="toggle-label">
-                            <span style="color: rgba(255,255,255,0.6); font-size: 12px;">Cursor Trail</span>
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="cursorTrail">
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </label>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="toggle-label">
-                            <span style="color: rgba(255,255,255,0.6); font-size: 12px;">Avatar Shake on Click</span>
-                            <label class="toggle-switch">
-                                <input type="checkbox" id="avatarShake">
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </label>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Particle Color</label>
-                        <div class="color-picker-wrapper">
-                            <input type="color" id="particleColor" value="#43b581">
-                            <span style="color: rgba(255,255,255,0.5); font-size: 12px;">Color of floating particles</span>
-                        </div>
-                    </div>
-
-                    <button class="save-btn" onclick="saveVisualEffects()">Save Effects</button>
-                </div>
-
-                <div class="setting-card">
-                    <h3>Social Links</h3>
-                    <div class="form-group">
-                        <label>Spotify Link</label>
-                        <input type="url" id="spotifyLink" placeholder="https://spotify.link/...">
-                    </div>
-                    <div class="form-group">
-                        <label>Discord Link</label>
-                        <input type="url" id="discordLink" placeholder="https://discord.gg/...">
-                    </div>
-                    <div class="form-group">
-                        <label>YouTube Link</label>
-                        <input type="url" id="youtubeLink" placeholder="https://youtube.com/...">
-                    </div>
-                    <div class="form-group">
-                        <label>GitHub Link</label>
-                        <input type="url" id="githubLink" placeholder="https://github.com/...">
-                    </div>
-                    <button class="save-btn" onclick="saveSocialLinks()">Save Social Links</button>
-                </div>
-
-                <div class="setting-card">
-                    <h3>Discord Card Settings</h3>
-                    
-                    <div class="form-group">
-                        <label>Discord Avatar</label>
-                        <div class="upload-area" onclick="document.getElementById('discordAvatarFileInput').click()" id="discordAvatarUploadArea">
-                            <div class="upload-icon">👤</div>
-                            <div class="upload-text">Click or Drag & Drop</div>
-                            <div class="upload-text-small">PNG, JPG, GIF (Max 3MB)</div>
-                        </div>
-                        <input type="file" id="discordAvatarFileInput" class="file-input" accept="image/*" onchange="handleFileUpload(this, 'discordAvatar')">
-                        <div class="upload-progress" id="discordAvatarProgress">
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="discordAvatarProgressFill" style="width: 0%"></div>
-                            </div>
-                            <div class="progress-text" id="discordAvatarProgressText">Uploading... 0%</div>
-                        </div>
-                        <div class="uploaded-preview" id="discordAvatarPreview">
-                            <img id="discordAvatarPreviewImg" src="" alt="Preview">
-                            <div class="uploaded-info">
-                                <div class="uploaded-name" id="discordAvatarFileName"></div>
-                                <div class="uploaded-size" id="discordAvatarFileSize"></div>
-                            </div>
-                            <button class="remove-upload" onclick="removeUpload('discordAvatar')">Remove</button>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Or Use URL</label>
-                        <input type="url" id="discordAvatarUrl" placeholder="https://cdn.discordapp.com/avatars/...">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Discord Username</label>
-                        <input type="text" id="discordUsernameInput" placeholder="dengehh ⭐ STAR">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Discord Status</label>
-                        <input type="text" id="discordStatusInput" placeholder="last seen 1h ago">
-                    </div>
-
-                    <button class
+</html>
