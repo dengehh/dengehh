@@ -181,6 +181,68 @@
             }
         }
 
+        .fireflies-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            display: none;
+        }
+
+        .firefly {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #ffeb3b;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #ffeb3b;
+            animation: fireflyFloat linear infinite;
+        }
+
+        @keyframes fireflyFloat {
+            0% {
+                transform: translate(0, 0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(100px, -100vh);
+                opacity: 0;
+            }
+        }
+
+        .aurora-effect {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            display: none;
+            background: linear-gradient(45deg, 
+                rgba(0, 255, 255, 0.1),
+                rgba(255, 0, 255, 0.1),
+                rgba(0, 255, 0, 0.1),
+                rgba(255, 255, 0, 0.1));
+            background-size: 400% 400%;
+            animation: aurora 15s ease infinite;
+        }
+
+        @keyframes aurora {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         .enter-overlay {
             position: fixed;
             top: 0;
@@ -954,110 +1016,6 @@
             border-color: rgba(67, 181, 129, 0.5);
         }
 
-        .preview-image {
-            width: 100%;
-            max-width: 200px;
-            height: 200px;
-            border-radius: 12px;
-            object-fit: cover;
-            margin-top: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .color-picker-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .color-picker-wrapper input[type="color"] {
-            width: 60px;
-            height: 40px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        .upload-area.dragover {
-            border-color: #43b581;
-            background: rgba(67, 181, 129, 0.1);
-        }
-
-        .upload-icon {
-            font-size: 40px;
-            margin-bottom: 10px;
-            opacity: 0.5;
-        }
-
-        .upload-text {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.5);
-            letter-spacing: 1px;
-        }
-
-        .upload-text-small {
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.3);
-            margin-top: 5px;
-        }
-
-        .file-input {
-            display: none;
-        }
-
-        .uploaded-preview {
-            margin-top: 15px;
-            padding: 15px;
-            background: rgba(67, 181, 129, 0.1);
-            border: 1px solid rgba(67, 181, 129, 0.3);
-            border-radius: 10px;
-            display: none;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .uploaded-preview.show {
-            display: flex;
-        }
-
-        .uploaded-preview img,
-        .uploaded-preview video {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .uploaded-info {
-            flex: 1;
-        }
-
-        .uploaded-name {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 5px;
-        }
-
-        .uploaded-size {
-            font-size: 10px;
-            color: rgba(255, 255, 255, 0.4);
-        }
-
-        .remove-upload {
-            padding: 8px 16px;
-            background: rgba(240, 71, 71, 0.15);
-            border: 1px solid rgba(240, 71, 71, 0.3);
-            border-radius: 6px;
-            color: #f04747;
-            font-size: 10px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .remove-upload:hover {
-            background: rgba(240, 71, 71, 0.25);
-        }
-
         .toggle-switch {
             position: relative;
             display: inline-block;
@@ -1106,6 +1064,7 @@
         .toggle-label {
             display: flex;
             align-items: center;
+            justify-content: space-between;
             gap: 15px;
         }
 
@@ -1203,6 +1162,8 @@
     <div class="stars-effect" id="starsEffect"></div>
     <div class="particles-effect" id="particlesEffect"></div>
     <div class="bubbles-effect" id="bubblesEffect"></div>
+    <div class="fireflies-effect" id="firefliesEffect"></div>
+    <div class="aurora-effect" id="auroraEffect"></div>
 
     <div class="enter-overlay" id="enterOverlay">
         <div class="enter-logo" id="enterLogoText">dengehh</div>
@@ -1313,25 +1274,7 @@
                     <h3>Profile Settings</h3>
                     
                     <div class="form-group">
-                        <label>Profile Picture</label>
-                        <div class="upload-area" onclick="document.getElementById('avatarFileInput').click()" id="avatarUploadArea">
-                            <div class="upload-icon">📸</div>
-                            <div class="upload-text">Click or Drag & Drop</div>
-                            <div class="upload-text-small">PNG, JPG, GIF (Max 5MB)</div>
-                        </div>
-                        <input type="file" id="avatarFileInput" class="file-input" accept="image/*" onchange="handleFileUpload(this, 'avatar')">
-                        <div class="uploaded-preview" id="avatarPreview">
-                            <img id="avatarPreviewImg" src="" alt="Preview">
-                            <div class="uploaded-info">
-                                <div class="uploaded-name" id="avatarFileName"></div>
-                                <div class="uploaded-size" id="avatarFileSize"></div>
-                            </div>
-                            <button class="remove-upload" onclick="removeUpload('avatar')">Remove</button>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Or Use URL</label>
+                        <label>Avatar URL</label>
                         <input type="url" id="avatarUrl" placeholder="https://example.com/avatar.png">
                     </div>
 
@@ -1379,10 +1322,7 @@
 
                     <div class="form-group">
                         <label>Status Color</label>
-                        <div class="color-picker-wrapper">
-                            <input type="color" id="statusColor" value="#43b581">
-                            <span style="color: rgba(255,255,255,0.5); font-size: 12px;">Online: #43b581, Idle: #faa61a, DND: #f04747</span>
-                        </div>
+                        <input type="color" id="statusColor" value="#43b581">
                     </div>
 
                     <button class="save-btn" onclick="saveProfileSettings()">Save Profile</button>
@@ -1392,25 +1332,7 @@
                     <h3>Background Settings</h3>
                     
                     <div class="form-group">
-                        <label>Background Media</label>
-                        <div class="upload-area" onclick="document.getElementById('backgroundFileInput').click()" id="backgroundUploadArea">
-                            <div class="upload-icon">🎬</div>
-                            <div class="upload-text">Click or Drag & Drop</div>
-                            <div class="upload-text-small">PNG, JPG, GIF, MP4, WEBM (Max 20MB)</div>
-                        </div>
-                        <input type="file" id="backgroundFileInput" class="file-input" accept="image/*,video/*" onchange="handleFileUpload(this, 'background')">
-                        <div class="uploaded-preview" id="backgroundPreview">
-                            <div id="backgroundPreviewMedia"></div>
-                            <div class="uploaded-info">
-                                <div class="uploaded-name" id="backgroundFileName"></div>
-                                <div class="uploaded-size" id="backgroundFileSize"></div>
-                            </div>
-                            <button class="remove-upload" onclick="removeUpload('background')">Remove</button>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Or Use URL</label>
+                        <label>Background URL (Image/Video)</label>
                         <input type="url" id="backgroundUrl" placeholder="https://example.com/background.gif">
                     </div>
 
@@ -1457,6 +1379,20 @@
                                     <span class="toggle-slider"></span>
                                 </label>
                             </label>
+                            <label class="toggle-label">
+                                <span style="color: rgba(255,255,255,0.6); font-size: 12px;">Fireflies Effect</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="firefliesEffectToggle">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </label>
+                            <label class="toggle-label">
+                                <span style="color: rgba(255,255,255,0.6); font-size: 12px;">Aurora Effect</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="auroraEffectToggle">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </label>
                         </div>
                     </div>
 
@@ -1467,33 +1403,15 @@
                     <h3>Music Settings</h3>
                     
                     <div class="form-group">
-                        <label>Background Music</label>
-                        <div class="upload-area" onclick="document.getElementById('musicFileInput').click()" id="musicUploadArea">
-                            <div class="upload-icon">🎵</div>
-                            <div class="upload-text">Click or Drag & Drop</div>
-                            <div class="upload-text-small">MP3, WAV, OGG (Max 10MB)</div>
-                        </div>
-                        <input type="file" id="musicFileInput" class="file-input" accept="audio/*" onchange="handleFileUpload(this, 'music')">
-                        <div class="uploaded-preview" id="musicPreview">
-                            <div style="width: 80px; height: 80px; background: rgba(67,181,129,0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 30px;">🎵</div>
-                            <div class="uploaded-info">
-                                <div class="uploaded-name" id="musicFileName"></div>
-                                <div class="uploaded-size" id="musicFileSize"></div>
-                            </div>
-                            <button class="remove-upload" onclick="removeUpload('music')">Remove</button>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Or Use URL</label>
-                        <input type="url" id="musicUrl" placeholder="https://example.com/music.mp3">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Music Website URL (Auto Convert)</label>
-                        <input type="url" id="musicWebsiteUrl" placeholder="https://youtube.com/watch?v=... or Spotify link">
+                        <label>YouTube/Spotify URL (Auto Convert)</label>
+                        <input type="url" id="musicWebsiteUrl" placeholder="https://youtube.com/watch?v=... or https://open.spotify.com/track/...">
                         <button class="convert-btn" id="convertMusicBtn" onclick="convertMusicUrl()">Convert to MP3</button>
                         <div class="conversion-status" id="conversionStatus"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Or Direct MP3 URL</label>
+                        <input type="url" id="musicUrl" placeholder="https://example.com/music.mp3">
                     </div>
 
                     <div class="form-group">
@@ -1507,25 +1425,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Music Card Cover (Album Art)</label>
-                        <div class="upload-area" onclick="document.getElementById('musicCoverFileInput').click()" id="musicCoverUploadArea">
-                            <div class="upload-icon">🎨</div>
-                            <div class="upload-text">Click or Drag & Drop</div>
-                            <div class="upload-text-small">PNG, JPG (Max 5MB)</div>
-                        </div>
-                        <input type="file" id="musicCoverFileInput" class="file-input" accept="image/*" onchange="handleFileUpload(this, 'musicCover')">
-                        <div class="uploaded-preview" id="musicCoverPreview">
-                            <img id="musicCoverPreviewImg" src="" alt="Preview">
-                            <div class="uploaded-info">
-                                <div class="uploaded-name" id="musicCoverFileName"></div>
-                                <div class="uploaded-size" id="musicCoverFileSize"></div>
-                            </div>
-                            <button class="remove-upload" onclick="removeUpload('musicCover')">Remove</button>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Or Use Cover URL</label>
+                        <label>Music Cover Image URL</label>
                         <input type="url" id="musicCoverUrl" placeholder="https://example.com/cover.jpg">
                     </div>
 
@@ -1557,25 +1457,7 @@
                     <h3>Discord Card Settings</h3>
                     
                     <div class="form-group">
-                        <label>Discord Avatar</label>
-                        <div class="upload-area" onclick="document.getElementById('discordAvatarFileInput').click()" id="discordAvatarUploadArea">
-                            <div class="upload-icon">👤</div>
-                            <div class="upload-text">Click or Drag & Drop</div>
-                            <div class="upload-text-small">PNG, JPG, GIF (Max 5MB)</div>
-                        </div>
-                        <input type="file" id="discordAvatarFileInput" class="file-input" accept="image/*" onchange="handleFileUpload(this, 'discordAvatar')">
-                        <div class="uploaded-preview" id="discordAvatarPreview">
-                            <img id="discordAvatarPreviewImg" src="" alt="Preview">
-                            <div class="uploaded-info">
-                                <div class="uploaded-name" id="discordAvatarFileName"></div>
-                                <div class="uploaded-size" id="discordAvatarFileSize"></div>
-                            </div>
-                            <button class="remove-upload" onclick="removeUpload('discordAvatar')">Remove</button>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Or Use URL</label>
+                        <label>Discord Avatar URL</label>
                         <input type="url" id="discordAvatarUrl" placeholder="https://cdn.discordapp.com/avatars/...">
                     </div>
 
@@ -1613,18 +1495,7 @@
                     </div>
                     <div class="form-group">
                         <label>Avatar Border Color</label>
-                        <div class="color-picker-wrapper">
-                            <input type="color" id="avatarBorderColor" value="#ffffff">
-                            <span style="color: rgba(255,255,255,0.5); font-size: 12px;">Avatar border ring color</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Animation Speed</label>
-                        <select id="animationSpeed">
-                            <option value="slow">Slow</option>
-                            <option value="normal" selected>Normal</option>
-                            <option value="fast">Fast</option>
-                        </select>
+                        <input type="color" id="avatarBorderColor" value="#ffffff">
                     </div>
                     <button class="save-btn" onclick="saveAdvancedSettings()">Save Advanced</button>
                 </div>
@@ -1638,15 +1509,7 @@
 
     <script>
         const ADMIN_PASSWORD = 'EMRE123';
-        const STORAGE_KEY = 'profile_settings';
-
-        let uploadedFiles = {
-            avatar: null,
-            background: null,
-            music: null,
-            musicCover: null,
-            discordAvatar: null
-        };
+        const STORAGE_KEY = 'dengehh_global_settings';
 
         let settings = {
             profile: {
@@ -1666,7 +1529,9 @@
                 matrixEffect: false,
                 starsEffect: false,
                 particlesEffect: false,
-                bubblesEffect: false
+                bubblesEffect: false,
+                firefliesEffect: false,
+                auroraEffect: false
             },
             music: {
                 url: '',
@@ -1691,30 +1556,30 @@
             advanced: {
                 faviconUrl: '',
                 pageTitle: 'dengehh',
-                avatarBorderColor: '#ffffff',
-                animationSpeed: 'normal'
+                avatarBorderColor: '#ffffff'
             }
         };
 
-        function loadSettings() {
-            const stored = localStorage.getItem(STORAGE_KEY);
-            if (stored) {
-                const loaded = JSON.parse(stored);
-                settings = { ...settings, ...loaded };
-                if (!settings.advanced) {
-                    settings.advanced = {
-                        faviconUrl: '',
-                        pageTitle: 'dengehh',
-                        avatarBorderColor: '#ffffff',
-                        animationSpeed: 'normal'
-                    };
+        async function loadSettings() {
+            try {
+                const stored = await window.storage.get(STORAGE_KEY, true);
+                if (stored && stored.value) {
+                    const loaded = JSON.parse(stored.value);
+                    settings = { ...settings, ...loaded };
                 }
+            } catch (error) {
+                console.log('No global settings found, using defaults');
             }
             applySettings();
         }
 
-        function saveSettings() {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+        async function saveSettings() {
+            try {
+                await window.storage.set(STORAGE_KEY, JSON.stringify(settings), true);
+                console.log('Settings saved globally!');
+            } catch (error) {
+                console.error('Failed to save settings:', error);
+            }
         }
 
         function applySettings() {
@@ -1725,7 +1590,6 @@
             document.getElementById('statusIndicator').style.background = settings.profile.statusColor;
             
             if (settings.advanced && settings.advanced.avatarBorderColor) {
-                const avatar = document.getElementById('profileAvatar');
                 const style = document.createElement('style');
                 style.textContent = `
                     .avatar::before { border-color: ${settings.advanced.avatarBorderColor}33 !important; }
@@ -1739,15 +1603,9 @@
 
             const username = document.getElementById('profileUsername');
             username.classList.remove('glowing', 'gradient', 'rainbow');
-            if (settings.profile.nameGlowing) {
-                username.classList.add('glowing');
-            }
-            if (settings.profile.nameGradient) {
-                username.classList.add('gradient');
-            }
-            if (settings.profile.nameRainbow) {
-                username.classList.add('rainbow');
-            }
+            if (settings.profile.nameGlowing) username.classList.add('glowing');
+            if (settings.profile.nameGradient) username.classList.add('gradient');
+            if (settings.profile.nameRainbow) username.classList.add('rainbow');
 
             updateBackground();
             document.querySelector('.background').style.opacity = settings.background.opacity / 100;
@@ -1757,19 +1615,14 @@
             document.getElementById('starsEffect').style.display = settings.background.starsEffect ? 'block' : 'none';
             document.getElementById('particlesEffect').style.display = settings.background.particlesEffect ? 'block' : 'none';
             document.getElementById('bubblesEffect').style.display = settings.background.bubblesEffect ? 'block' : 'none';
+            document.getElementById('firefliesEffect').style.display = settings.background.firefliesEffect ? 'block' : 'none';
+            document.getElementById('auroraEffect').style.display = settings.background.auroraEffect ? 'block' : 'none';
 
-            if (settings.background.matrixEffect) {
-                initMatrix();
-            }
-            if (settings.background.starsEffect) {
-                createStars();
-            }
-            if (settings.background.particlesEffect) {
-                createParticles();
-            }
-            if (settings.background.bubblesEffect) {
-                createBubbles();
-            }
+            if (settings.background.matrixEffect) initMatrix();
+            if (settings.background.starsEffect) createStars();
+            if (settings.background.particlesEffect) createParticles();
+            if (settings.background.bubblesEffect) createBubbles();
+            if (settings.background.firefliesEffect) createFireflies();
 
             if (settings.music.url) {
                 document.getElementById('bgAudio').querySelector('source').src = settings.music.url;
@@ -1810,7 +1663,7 @@
             if (settings.background.url) {
                 const ext = settings.background.url.split('.').pop().toLowerCase().split('?')[0];
                 
-                if (ext === 'mp4' || ext === 'webm') {
+              if (ext === 'mp4' || ext === 'webm') {
                     const video = document.createElement('video');
                     video.src = settings.background.url;
                     video.autoplay = true;
@@ -1917,94 +1770,30 @@
             }
         }
 
-        function handleFileUpload(input, type) {
-            const file = input.files[0];
-            if (!file) return;
-
-            const maxSizes = {
-                avatar: 5 * 1024 * 1024,
-                background: 20 * 1024 * 1024,
-                music: 10 * 1024 * 1024,
-                musicCover: 5 * 1024 * 1024,
-                discordAvatar: 5 * 1024 * 1024
-            };
-
-            if (file.size > maxSizes[type]) {
-                alert(`File size exceeds maximum limit of ${maxSizes[type] / (1024 * 1024)}MB`);
-                input.value = '';
-                return;
+        function createFireflies() {
+            const container = document.getElementById('firefliesEffect');
+            container.innerHTML = '';
+            const fireflyCount = 40;
+            
+            for (let i = 0; i < fireflyCount; i++) {
+                const firefly = document.createElement('div');
+                firefly.className = 'firefly';
+                firefly.style.left = Math.random() * 100 + '%';
+                firefly.style.top = Math.random() * 100 + '%';
+                firefly.style.animationDuration = (Math.random() * 8 + 7) + 's';
+                firefly.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(firefly);
             }
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                uploadedFiles[type] = e.target.result;
-                showPreview(type, file, e.target.result);
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function showPreview(type, file, dataUrl) {
-            const preview = document.getElementById(`${type}Preview`);
-            const fileName = document.getElementById(`${type}FileName`);
-            const fileSize = document.getElementById(`${type}FileSize`);
-
-            fileName.textContent = file.name;
-            fileSize.textContent = formatFileSize(file.size);
-
-            if (type === 'avatar' || type === 'musicCover' || type === 'discordAvatar') {
-                const img = document.getElementById(`${type}PreviewImg`);
-                img.src = dataUrl;
-            } else if (type === 'background') {
-                const mediaContainer = document.getElementById('backgroundPreviewMedia');
-                mediaContainer.innerHTML = '';
-                
-                if (file.type.startsWith('video/')) {
-                    const video = document.createElement('video');
-                    video.src = dataUrl;
-                    video.style.width = '80px';
-                    video.style.height = '80px';
-                    video.style.objectFit = 'cover';
-                    video.style.borderRadius = '8px';
-                    video.muted = true;
-                    video.loop = true;
-                    video.play();
-                    mediaContainer.appendChild(video);
-                } else {
-                    const img = document.createElement('img');
-                    img.src = dataUrl;
-                    img.style.width = '80px';
-                    img.style.height = '80px';
-                    img.style.objectFit = 'cover';
-                    img.style.borderRadius = '8px';
-                    mediaContainer.appendChild(img);
-                }
-            }
-
-            preview.classList.add('show');
-        }
-
-        function removeUpload(type) {
-            uploadedFiles[type] = null;
-            document.getElementById(`${type}FileInput`).value = '';
-            document.getElementById(`${type}Preview`).classList.remove('show');
-        }
-
-        function formatFileSize(bytes) {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
         }
 
         async function convertMusicUrl() {
-            const url = document.getElementById('musicWebsiteUrl').value;
+            const url = document.getElementById('musicWebsiteUrl').value.trim();
             const statusDiv = document.getElementById('conversionStatus');
             const btn = document.getElementById('convertMusicBtn');
             
             if (!url) {
                 statusDiv.className = 'conversion-status error';
-                statusDiv.textContent = 'Please enter a URL';
+                statusDiv.textContent = 'Please enter a YouTube or Spotify URL';
                 return;
             }
 
@@ -2012,71 +1801,51 @@
             btn.textContent = 'Converting...';
             statusDiv.className = 'conversion-status';
             statusDiv.style.display = 'block';
-            statusDiv.textContent = 'Processing...';
+            statusDiv.textContent = 'Processing your request...';
 
             try {
-                // Simulated conversion - in real implementation, you would use an API service
-                // Popular services: yt-dlp, youtube-dl APIs, or third-party conversion services
+                // YouTube veya Spotify URL'sini kontrol et
+                let isYouTube = url.includes('youtube.com') || url.includes('youtu.be');
+                let isSpotify = url.includes('spotify.com');
+
+                if (!isYouTube && !isSpotify) {
+                    throw new Error('Please provide a valid YouTube or Spotify URL');
+                }
+
+                // Gerçek API entegrasyonu için - şimdilik demo
+                // Gerçek kullanımda backend API'ye istek atılacak
+                // Örnek: const response = await fetch('YOUR_API_ENDPOINT', {...})
                 
-                // For demonstration, showing how it would work:
                 statusDiv.className = 'conversion-status error';
-                statusDiv.textContent = 'Music conversion requires a backend service. Please use direct MP3 URL or upload file instead.';
+                statusDiv.textContent = 'Music conversion requires a backend API service. Please use a direct MP3 URL instead, or set up a conversion API like youtube-dl or spotify-downloader on your server.';
                 
-                // In a real implementation with a backend:
-                // const response = await fetch('/api/convert', {
-                //     method: 'POST',
-                //     headers: { 'Content-Type': 'application/json' },
-                //     body: JSON.stringify({ url: url })
-                // });
-                // const data = await response.json();
-                // if (data.success) {
-                //     document.getElementById('musicUrl').value = data.mp3Url;
-                //     statusDiv.className = 'conversion-status success';
-                //     statusDiv.textContent = 'Converted successfully! MP3 URL added.';
-                // }
-                
+                // API kurulumu için açıklama:
+                console.log(`
+                    To enable music conversion, you need to:
+                    1. Set up a backend API (Node.js/Python)
+                    2. Use youtube-dl or yt-dlp for YouTube
+                    3. Use spotify-downloader for Spotify
+                    4. Host the converted MP3 and return the URL
+                    
+                    Example API endpoint structure:
+                    POST /api/convert
+                    Body: { url: "youtube-or-spotify-url" }
+                    Response: { success: true, mp3Url: "https://your-cdn.com/music.mp3" }
+                `);
+
             } catch (error) {
                 statusDiv.className = 'conversion-status error';
-                statusDiv.textContent = 'Conversion failed. Please try a direct MP3 link.';
+                statusDiv.textContent = error.message || 'Conversion failed. Please use a direct MP3 URL.';
             } finally {
                 btn.disabled = false;
                 btn.textContent = 'Convert to MP3';
             }
         }
 
-        function setupDragAndDrop() {
-            const areas = ['avatar', 'background', 'music', 'musicCover', 'discordAvatar'];
-            
-            areas.forEach(type => {
-                const area = document.getElementById(`${type}UploadArea`);
-                if (!area) return;
-
-                area.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    area.classList.add('dragover');
-                });
-
-                area.addEventListener('dragleave', () => {
-                    area.classList.remove('dragover');
-                });
-
-                area.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    area.classList.remove('dragover');
-                    
-                    const files = e.dataTransfer.files;
-                    if (files.length > 0) {
-                        const input = document.getElementById(`${type}FileInput`);
-                        input.files = files;
-                        handleFileUpload(input, type);
-                    }
-                });
-            });
-        }
-
         function checkRoute() {
             const path = window.location.pathname;
-            if (path === '/panel' || path === '/panel.html' || window.location.hash === '#panel') {
+            const hash = window.location.hash;
+            if (path === '/panel' || path === '/panel.html' || hash === '#panel') {
                 document.getElementById('adminPanel').classList.add('active');
                 document.getElementById('mainContainer').style.display = 'none';
                 document.getElementById('enterOverlay').style.display = 'none';
@@ -2121,6 +1890,8 @@
             document.getElementById('starsEffectToggle').checked = settings.background.starsEffect || false;
             document.getElementById('particlesEffectToggle').checked = settings.background.particlesEffect || false;
             document.getElementById('bubblesEffectToggle').checked = settings.background.bubblesEffect || false;
+            document.getElementById('firefliesEffectToggle').checked = settings.background.firefliesEffect || false;
+            document.getElementById('auroraEffectToggle').checked = settings.background.auroraEffect || false;
 
             document.getElementById('musicUrl').value = settings.music.url;
             document.getElementById('musicVolume').value = settings.music.volume;
@@ -2142,17 +1913,11 @@
                 document.getElementById('faviconUrl').value = settings.advanced.faviconUrl || '';
                 document.getElementById('pageTitle').value = settings.advanced.pageTitle || 'dengehh';
                 document.getElementById('avatarBorderColor').value = settings.advanced.avatarBorderColor || '#ffffff';
-                document.getElementById('animationSpeed').value = settings.advanced.animationSpeed || 'normal';
             }
         }
 
-        function saveProfileSettings() {
-            if (uploadedFiles.avatar) {
-                settings.profile.avatar = uploadedFiles.avatar;
-            } else if (document.getElementById('avatarUrl').value) {
-                settings.profile.avatar = document.getElementById('avatarUrl').value;
-            }
-            
+        async function saveProfileSettings() {
+            settings.profile.avatar = document.getElementById('avatarUrl').value || settings.profile.avatar;
             settings.profile.username = document.getElementById('usernameInput').value || settings.profile.username;
             settings.profile.title = document.getElementById('titleInput').value || settings.profile.title;
             settings.profile.statusText = document.getElementById('statusTextInput').value || settings.profile.statusText;
@@ -2161,85 +1926,67 @@
             settings.profile.nameGradient = document.getElementById('nameGradient').checked;
             settings.profile.nameRainbow = document.getElementById('nameRainbow').checked;
             
-            saveSettings();
+            await saveSettings();
             applySettings();
-            alert('Profile settings saved successfully!');
+            alert('✅ Profile settings saved globally! Changes will appear for all visitors.');
         }
 
-        function saveBackgroundSettings() {
-            if (uploadedFiles.background) {
-                settings.background.url = uploadedFiles.background;
-            } else if (document.getElementById('backgroundUrl').value) {
-                settings.background.url = document.getElementById('backgroundUrl').value;
-            }
-            
+        async function saveBackgroundSettings() {
+            settings.background.url = document.getElementById('backgroundUrl').value || settings.background.url;
             settings.background.opacity = parseInt(document.getElementById('backgroundOpacity').value) || 15;
             settings.background.snowEffect = document.getElementById('snowEffect').checked;
             settings.background.matrixEffect = document.getElementById('matrixEffectToggle').checked;
             settings.background.starsEffect = document.getElementById('starsEffectToggle').checked;
             settings.background.particlesEffect = document.getElementById('particlesEffectToggle').checked;
             settings.background.bubblesEffect = document.getElementById('bubblesEffectToggle').checked;
+            settings.background.firefliesEffect = document.getElementById('firefliesEffectToggle').checked;
+            settings.background.auroraEffect = document.getElementById('auroraEffectToggle').checked;
             
-            saveSettings();
+            await saveSettings();
             applySettings();
-            alert('Background settings saved successfully!');
+            alert('✅ Background settings saved globally! Changes will appear for all visitors.');
         }
 
-        function saveMusicSettings() {
-            if (uploadedFiles.music) {
-                settings.music.url = uploadedFiles.music;
-            } else if (document.getElementById('musicUrl').value) {
-                settings.music.url = document.getElementById('musicUrl').value;
-            }
-            
-            if (uploadedFiles.musicCover) {
-                settings.music.coverUrl = uploadedFiles.musicCover;
-            } else if (document.getElementById('musicCoverUrl').value) {
-                settings.music.coverUrl = document.getElementById('musicCoverUrl').value;
-            }
-            
+        async function saveMusicSettings() {
+            settings.music.url = document.getElementById('musicUrl').value || settings.music.url;
             settings.music.volume = parseInt(document.getElementById('musicVolume').value) || 25;
             settings.music.cardTitle = document.getElementById('musicCardTitle').value || settings.music.cardTitle;
+            settings.music.coverUrl = document.getElementById('musicCoverUrl').value || settings.music.coverUrl;
             
-            saveSettings();
+            await saveSettings();
             applySettings();
-            alert('Music settings saved successfully!');
+            alert('✅ Music settings saved globally! Changes will appear for all visitors.');
         }
 
-        function saveSocialLinks() {
+        async function saveSocialLinks() {
             settings.social.spotify = document.getElementById('spotifyLink').value || settings.social.spotify;
             settings.social.discord = document.getElementById('discordLink').value || settings.social.discord;
             settings.social.youtube = document.getElementById('youtubeLink').value;
             settings.social.github = document.getElementById('githubLink').value;
             
-            saveSettings();
-            alert('Social links saved successfully!');
+            await saveSettings();
+            alert('✅ Social links saved globally! Changes will appear for all visitors.');
         }
 
-        function saveDiscordSettings() {
-            if (uploadedFiles.discordAvatar) {
-                settings.discordCard.avatar = uploadedFiles.discordAvatar;
-            } else if (document.getElementById('discordAvatarUrl').value) {
-                settings.discordCard.avatar = document.getElementById('discordAvatarUrl').value;
-            }
-            
+        async function saveDiscordSettings() {
+            settings.discordCard.avatar = document.getElementById('discordAvatarUrl').value || settings.discordCard.avatar;
             settings.discordCard.username = document.getElementById('discordUsernameInput').value || settings.discordCard.username;
             settings.discordCard.status = document.getElementById('discordStatusInput').value || settings.discordCard.status;
             
-            saveSettings();
+            await saveSettings();
             applySettings();
-            alert('Discord card settings saved successfully!');
+            alert('✅ Discord card settings saved globally! Changes will appear for all visitors.');
         }
 
-        function saveEnterSettings() {
+        async function saveEnterSettings() {
             settings.enterScreen.logoText = document.getElementById('enterLogoInput').value || settings.enterScreen.logoText;
             
-            saveSettings();
+            await saveSettings();
             applySettings();
-            alert('Enter screen settings saved successfully!');
+            alert('✅ Enter screen settings saved globally! Changes will appear for all visitors.');
         }
 
-        function saveAdvancedSettings() {
+        async function saveAdvancedSettings() {
             if (!settings.advanced) {
                 settings.advanced = {};
             }
@@ -2247,11 +1994,10 @@
             settings.advanced.faviconUrl = document.getElementById('faviconUrl').value;
             settings.advanced.pageTitle = document.getElementById('pageTitle').value || 'dengehh';
             settings.advanced.avatarBorderColor = document.getElementById('avatarBorderColor').value;
-            settings.advanced.animationSpeed = document.getElementById('animationSpeed').value;
             
-            saveSettings();
+            await saveSettings();
             applySettings();
-            alert('Advanced settings saved successfully! Refresh page to see all changes.');
+            alert('✅ Advanced settings saved globally! Refresh page to see all changes.');
         }
 
         function createSnow() {
@@ -2279,7 +2025,7 @@
             setTimeout(() => {
                 main.classList.add('visible');
                 audio.volume = settings.music.volume / 100;
-                audio.play().catch(e => console.log('Audio autoplay prevented'));
+                audio.play().catch(e => console.log('Audio autoplay prevented:', e));
             }, 500);
         }
 
@@ -2303,7 +2049,6 @@
         const audio = document.getElementById('bgAudio');
         const volumeSlider = document.getElementById('volumeSlider');
         const volumeIcon = document.getElementById('volumeIcon');
-        let isMuted = false;
 
         volumeSlider.addEventListener('input', function(e) {
             e.stopPropagation();
@@ -2315,15 +2060,9 @@
             e.stopPropagation();
         });
 
-        function toggleMute() {
-            isMuted = !isMuted;
-            audio.muted = isMuted;
-            updateVolumeIcon();
-        }
-
         function updateVolumeIcon() {
             const icon = volumeIcon.querySelector('svg path');
-            if (isMuted || audio.volume === 0) {
+            if (audio.volume === 0) {
                 icon.setAttribute('d', 'M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z');
             } else {
                 icon.setAttribute('d', 'M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z');
@@ -2343,12 +2082,11 @@
             }
         }
 
-        window.addEventListener('load', () => {
-            loadSettings();
+        window.addEventListener('load', async () => {
+            await loadSettings();
             checkRoute();
             createSnow();
-            setupDragAndDrop();
         });
     </script>
 </body>
-</html> 
+</html>
